@@ -234,10 +234,13 @@ export function ChatInterface() {
   ];
 
   return (
-    <div className="flex flex-col h-[100dvh] w-full bg-background relative" style={{ paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'env(safe-area-inset-bottom)' }}>
+    <div className="flex flex-col h-[100dvh] max-h-[100dvh] w-full bg-background relative overflow-hidden">
       
       {/* Minimalist Header */}
-      <div className="flex justify-between items-center px-4 h-12 bg-background/95 backdrop-blur-sm sticky top-0 z-20 border-b border-transparent">
+      <div 
+        className="flex justify-between items-center px-4 h-14 sm:h-12 bg-background/95 backdrop-blur-sm sticky top-0 z-20 border-b border-transparent shrink-0"
+        style={{ paddingTop: 'env(safe-area-inset-top)' }}
+      >
         <span className="font-bold text-foreground flex items-center gap-1.5 text-sm">
           📚 BookGuide
         </span>
@@ -327,7 +330,10 @@ export function ChatInterface() {
         )}
       </AnimatePresence>
 
-      <div className="absolute bottom-4 left-4 right-4 sm:left-auto sm:right-auto sm:w-full sm:max-w-2xl sm:mx-auto z-40 flex flex-col justify-center pointer-events-none">
+      <div 
+        className="absolute bottom-4 left-4 right-4 sm:left-auto sm:right-auto sm:w-full sm:max-w-2xl sm:mx-auto z-40 flex flex-col justify-center pointer-events-none"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+      >
         <form onSubmit={handleSubmit} className="flex gap-2 items-end bg-background/95 backdrop-blur-md border border-border/40 rounded-3xl p-1.5 shadow-lg pointer-events-auto">
           <textarea
             ref={inputRef}
