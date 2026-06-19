@@ -330,39 +330,42 @@ export function ChatInterface() {
         )}
       </AnimatePresence>
 
+      {/* Floating Composer Container in Normal Flow */}
       <div 
-        className="absolute bottom-4 left-4 right-4 sm:left-auto sm:right-auto sm:w-full sm:max-w-2xl sm:mx-auto z-40 flex flex-col justify-center pointer-events-none"
-        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+        className="w-full bg-background pt-2 pb-4 px-4 shrink-0 z-40"
+        style={{ paddingBottom: 'calc(1rem + env(safe-area-inset-bottom))' }}
       >
-        <form onSubmit={handleSubmit} className="flex gap-2 items-end bg-background/95 backdrop-blur-md border border-border/40 rounded-3xl p-1.5 shadow-lg pointer-events-auto">
-          <textarea
-            ref={inputRef}
-            value={input}
-            onChange={(e) => {
-              setInput(e.target.value);
-              // Auto-resize
-              e.target.style.height = 'auto';
-              e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleSubmit();
-              }
-            }}
-            placeholder="Ask about books..."
-            className="w-full bg-transparent px-4 py-2.5 focus:outline-none resize-none text-[15px] max-h-[120px] scrollbar-thin"
-            rows={1}
-            style={{ height: '44px' }}
-          />
-          <button
-            type="submit"
-            disabled={!input.trim() || isLoading}
-            className="p-2 mb-0.5 mr-0.5 bg-foreground text-background rounded-full hover:opacity-80 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex-shrink-0"
-          >
-            <Send size={16} className="translate-x-[1px]" />
-          </button>
-        </form>
+        <div className="w-full max-w-2xl mx-auto flex flex-col justify-center">
+          <form onSubmit={handleSubmit} className="flex gap-2 items-end bg-muted/40 border border-border/60 rounded-3xl p-1.5 shadow-sm focus-within:ring-1 focus-within:ring-border/80 transition-all w-full">
+            <textarea
+              ref={inputRef}
+              value={input}
+              onChange={(e) => {
+                setInput(e.target.value);
+                // Auto-resize
+                e.target.style.height = 'auto';
+                e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSubmit();
+                }
+              }}
+              placeholder="Ask about books..."
+              className="w-full bg-transparent px-4 py-2.5 focus:outline-none resize-none text-[15px] max-h-[120px] scrollbar-thin"
+              rows={1}
+              style={{ height: '44px' }}
+            />
+            <button
+              type="submit"
+              disabled={!input.trim() || isLoading}
+              className="p-2 mb-0.5 mr-0.5 bg-foreground text-background rounded-full hover:opacity-80 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex-shrink-0"
+            >
+              <Send size={16} className="translate-x-[1px]" />
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
