@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, Loader2, Sparkles, ChevronRight, RefreshCw, Search } from 'lucide-react';
 import { Book } from '@/lib/catalog';
@@ -241,9 +242,9 @@ export function ChatInterface() {
         className="flex justify-between items-center px-4 h-14 sm:h-12 bg-background/95 backdrop-blur-sm sticky top-0 z-20 border-b border-transparent shrink-0"
         style={{ paddingTop: 'env(safe-area-inset-top)' }}
       >
-        <span className="font-bold text-foreground flex items-center gap-1.5 text-sm">
+        <Link href="/" className="font-bold text-foreground flex items-center gap-1.5 text-sm hover:opacity-80 transition-opacity">
           📚 BookGuide
-        </span>
+        </Link>
         {messages.length > 0 && (
           <button 
             onClick={resetSession}
