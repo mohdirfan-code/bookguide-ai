@@ -22,8 +22,10 @@ export function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [loadingText, setLoadingText] = useState('Thinking...');
+  const [loadingStep, setLoadingStep] = useState(0);
   const [catalog, setCatalog] = useState<Book[]>([]);
+  const [showScrollButton, setShowScrollButton] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [profile, setProfile] = useState<Record<string, any>>({});
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -43,18 +45,31 @@ export function ChatInterface() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isLoading, loadingText]);
+  }, [messages, isLoading]);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
+    let interval: NodeJS.Timeout;
     if (isLoading) {
-      setLoadingText('Thinking...');
-      timer = setTimeout(() => {
-        setLoadingText('Still thinking about the perfect book...');
-      }, 5000);
+      setLoadingStep(0);
+      interval = setInterval(() => {
+        setLoadingStep(prev => (prev + 1) % 3);
+      }, 3000);
     }
-    return () => clearTimeout(timer);
+    return () => clearInterval(interval);
   }, [isLoading]);
+
+  const loadingMessages = [
+    "Thinking about the perfect book...",
+    "Finding the best match...",
+    "Looking through the store catalog..."
+  ];
+
+  const handleScroll = () => {
+    if (!scrollContainerRef.current) return;
+    const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
+    // Show button if we are scrolled up more than 100px from the bottom
+    setShowScrollButton(scrollHeight - scrollTop - clientHeight > 100);
+  };
 
   const resetSession = () => {
     setMessages([]);
@@ -170,24 +185,30 @@ export function ChatInterface() {
             
             {/* Action Buttons - V2 Compact Chips */}
             {message === messages[messages.length - 1] && (
-              <div className="flex flex-wrap gap-2 mt-2 pt-3 border-t border-border/50">
+              <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-border/50">
                 <button
                   onClick={() => submitQuery("Can you recommend books similar to this?")}
-                  className="flex items-center gap-1.5 text-xs font-semibold bg-primary/10 text-primary hover:bg-primary/20 px-3 py-1.5 rounded-full transition-colors"
+                  className="flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold bg-background/50 border border-border text-foreground hover:bg-muted px-3 py-1.5 rounded-full transition-colors"
                 >
                   <Search size={14} /> Similar
                 </button>
                 <button
                   onClick={() => submitQuery("None of these quite fit. Can you recommend something else?")}
-                  className="flex items-center gap-1.5 text-xs font-semibold bg-muted hover:bg-muted/80 text-foreground px-3 py-1.5 rounded-full transition-colors"
+                  className="flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold bg-background/50 border border-border text-foreground hover:bg-muted px-3 py-1.5 rounded-full transition-colors"
                 >
                   <RefreshCw size={14} /> More
                 </button>
                 <button
-                  onClick={() => inputRef.current?.focus()}
-                  className="flex items-center gap-1.5 text-xs font-semibold bg-muted hover:bg-muted/80 text-foreground px-3 py-1.5 rounded-full transition-colors"
+                  onClick={() => submitQuery("Do you have any good gift ideas?")}
+                  className="flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold bg-background/50 border border-border text-foreground hover:bg-muted px-3 py-1.5 rounded-full transition-colors"
                 >
-                  <ChevronRight size={14} /> Ask
+                  🎁 Gift Ideas
+                </button>
+                <button
+                  onClick={() => inputRef.current?.focus()}
+                  className="flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold bg-background/50 border border-border text-foreground hover:bg-muted px-3 py-1.5 rounded-full transition-colors"
+                >
+                  ❓ Ask
                 </button>
               </div>
             )}
@@ -213,34 +234,38 @@ export function ChatInterface() {
   ];
 
   return (
-    <div className="flex flex-col h-[100dvh] sm:h-[calc(100dvh-88px)] w-full max-w-4xl mx-auto bg-card sm:rounded-xl shadow-sm sm:border border-border overflow-hidden">
+    <div className="flex flex-col h-[100dvh] w-full max-w-4xl mx-auto bg-background overflow-hidden relative" style={{ paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'env(safe-area-inset-bottom)' }}>
       
       {/* Session Header / Reset */}
-      {messages.length > 0 && (
-        <div className="flex justify-between items-center px-4 py-2 bg-muted/30 border-b border-border text-sm backdrop-blur-sm sticky top-0 z-20">
-          <span className="font-bold text-foreground flex items-center gap-1.5">
-            <Sparkles size={14} className="text-primary" /> BookGuide AI
-          </span>
+      <div className="flex justify-between items-center px-4 py-3 bg-background/80 border-b border-border text-sm backdrop-blur-md sticky top-0 z-20">
+        <span className="font-bold text-foreground flex items-center gap-1.5">
+          📚 BookGuide AI
+        </span>
+        {messages.length > 0 && (
           <button 
             onClick={resetSession}
             className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded-md hover:bg-muted"
           >
             <RefreshCw size={12} /> New Chat
           </button>
-        </div>
-      )}
+        )}
+      </div>
 
-      <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 lg:p-8 space-y-6">
+      <div 
+        ref={scrollContainerRef}
+        onScroll={handleScroll}
+        className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 lg:p-8 space-y-6 relative"
+      >
         {messages.length === 0 ? (
-          <div className="h-full flex flex-col items-center justify-center text-center max-w-2xl mx-auto px-4 py-4 sm:py-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-8 tracking-tight">📚 What are you looking for today?</h2>
+          <div className="h-full flex flex-col items-center justify-center text-center max-w-xl mx-auto px-2">
+            <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-6 sm:mb-8 tracking-tight">📚 What are you looking for today?</h2>
             
-            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 w-full">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 w-full">
               {suggestedPrompts.map((prompt, idx) => (
                 <button
                   key={idx}
-                  onClick={() => submitQuery(prompt)}
-                  className="bg-card hover:bg-accent/10 border border-border/60 hover:border-primary/30 text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-full transition-all text-foreground shadow-sm hover:shadow-md active:scale-95 flex items-center"
+                  onClick={() => submitQuery(prompt.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF] |✨ |💰 |🐉 |🌱 |🚀 |🎁 /g, ''))}
+                  className="bg-card hover:bg-accent/10 border border-border/60 hover:border-primary/30 text-[11px] sm:text-sm font-semibold px-3 py-3 sm:py-4 rounded-xl transition-all text-foreground/80 shadow-sm hover:shadow-md active:scale-95 flex items-center justify-center text-center"
                 >
                   {prompt}
                 </button>
@@ -257,10 +282,10 @@ export function ChatInterface() {
                 className={"flex " + (message.role === 'user' ? 'justify-end' : 'justify-start w-full')}
               >
                 <div
-                  className={"p-4 sm:p-6 rounded-2xl shadow-sm " + (
+                  className={"p-3 sm:p-5 rounded-2xl shadow-sm leading-relaxed " + (
                     message.role === 'user'
-                      ? 'bg-primary text-primary-foreground rounded-br-none max-w-[90%] sm:max-w-[80%]'
-                      : 'bg-muted/30 text-foreground rounded-bl-none border border-border/50 w-full sm:w-[90%] md:w-[85%]'
+                      ? 'bg-foreground text-background rounded-br-sm max-w-[85%] sm:max-w-[75%]'
+                      : 'bg-muted/40 text-foreground rounded-bl-sm border border-border/40 w-full sm:w-[90%] md:w-[85%]'
                   )}
                 >
                   {renderMessageContent(message)}
@@ -272,45 +297,66 @@ export function ChatInterface() {
         
         {isLoading && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-start w-full">
-            <div className="bg-muted/30 border border-border/50 p-6 rounded-2xl rounded-bl-none flex flex-col gap-4 w-full sm:w-[90%] md:w-[85%]">
-              <div className="flex items-center gap-3">
-                <Loader2 className="w-5 h-5 animate-spin text-primary" />
-                <span className="text-sm font-medium text-muted-foreground">{loadingText}</span>
+            <div className="bg-muted/40 border border-border/40 p-4 rounded-2xl rounded-bl-sm flex flex-col gap-3 w-full sm:w-[90%] md:w-[85%]">
+              <div className="flex items-center gap-2">
+                <span className="flex gap-1">
+                  <span className="w-1.5 h-1.5 bg-foreground/40 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <span className="w-1.5 h-1.5 bg-foreground/40 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <span className="w-1.5 h-1.5 bg-foreground/40 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                </span>
+                <span className="text-xs font-semibold text-muted-foreground ml-2">{loadingMessages[loadingStep]}</span>
               </div>
-              <RecommendationCardSkeleton />
             </div>
           </motion.div>
         )}
-        <div ref={messagesEndRef} />
+        <div ref={messagesEndRef} className="h-2" />
       </div>
 
-      <div className="p-4 sm:p-5 bg-background/80 backdrop-blur-md border-t border-border z-10">
-        <form onSubmit={handleSubmit} className="flex gap-2 items-end relative max-w-4xl mx-auto w-full">
-          <div className="relative flex-grow shadow-sm rounded-xl">
-            <textarea
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSubmit();
-                }
-              }}
-              placeholder="Ask for recommendations..."
-              className="w-full bg-card border border-border/80 rounded-xl px-5 py-4 pr-14 focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none text-base sm:text-lg transition-all"
-              rows={1}
-              style={{ minHeight: '60px', maxHeight: '160px' }}
-            />
-            <button
-              type="submit"
-              disabled={!input.trim() || isLoading}
-              className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
-            >
-              <Send size={20} />
-            </button>
-          </div>
+      <AnimatePresence>
+        {showScrollButton && (
+          <motion.button
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            onClick={scrollToBottom}
+            className="absolute bottom-24 right-1/2 translate-x-1/2 bg-background border border-border shadow-md text-foreground text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1 z-30"
+          >
+            ⬇ New Messages
+          </motion.button>
+        )}
+      </AnimatePresence>
+
+      <div className="p-3 sm:p-4 bg-background">
+        <form onSubmit={handleSubmit} className="flex gap-2 items-end relative max-w-3xl mx-auto w-full bg-muted/30 border border-border/50 rounded-3xl p-1.5 shadow-sm focus-within:ring-1 focus-within:ring-border/80 transition-all">
+          <textarea
+            ref={inputRef}
+            value={input}
+            onChange={(e) => {
+              setInput(e.target.value);
+              // Auto-resize
+              e.target.style.height = 'auto';
+              e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSubmit();
+              }
+            }}
+            placeholder="Message BookGuide AI..."
+            className="w-full bg-transparent px-4 py-2.5 focus:outline-none resize-none text-sm sm:text-base max-h-[120px] scrollbar-thin"
+            rows={1}
+            style={{ height: '44px' }}
+          />
+          <button
+            type="submit"
+            disabled={!input.trim() || isLoading}
+            className="p-2 mb-0.5 mr-0.5 bg-foreground text-background rounded-full hover:opacity-80 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex-shrink-0"
+          >
+            <Send size={16} className="translate-x-[1px]" />
+          </button>
         </form>
+        <p className="text-center text-[10px] text-muted-foreground mt-2">BookGuide AI can make mistakes. Verify important information.</p>
       </div>
     </div>
   );
