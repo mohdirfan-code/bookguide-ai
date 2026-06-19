@@ -1,0 +1,1768 @@
+[
+  {
+    "id": 1,
+    "title": "Atomic Habits",
+    "author": "James Clear",
+    "genre": "Self Help",
+    "price": 349,
+    "section": "Self Help",
+    "rack": "B2",
+    "description": "Popular self help book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Atomic+Habits-L.jpg",
+    "search_query": "Atomic Habits James Clear",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "self help",
+      "habits",
+      "productivity",
+      "personal_growth",
+      "beginner_friendly"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 2,
+    "title": "Deep Work",
+    "author": "Cal Newport",
+    "genre": "Productivity",
+    "price": 399,
+    "section": "Productivity",
+    "rack": "C3",
+    "description": "Popular productivity book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Deep+Work-L.jpg",
+    "search_query": "Deep Work Cal Newport",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "productivity",
+      "personal_growth"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 3,
+    "title": "The Psychology of Money",
+    "author": "Morgan Housel",
+    "genre": "Finance",
+    "price": 449,
+    "section": "Finance",
+    "rack": "D4",
+    "description": "Popular finance book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Psychology+of+Money-L.jpg",
+    "search_query": "The Psychology of Money Morgan Housel",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "finance"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 4,
+    "title": "Rich Dad Poor Dad",
+    "author": "Robert Kiyosaki",
+    "genre": "Finance",
+    "price": 499,
+    "section": "Finance",
+    "rack": "E5",
+    "description": "Popular finance book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Rich+Dad+Poor+Dad-L.jpg",
+    "search_query": "Rich Dad Poor Dad Robert Kiyosaki",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "finance"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 5,
+    "title": "Think and Grow Rich",
+    "author": "Napoleon Hill",
+    "genre": "Self Help",
+    "price": 549,
+    "section": "Self Help",
+    "rack": "F1",
+    "description": "Popular self help book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Think+and+Grow+Rich-L.jpg",
+    "search_query": "Think and Grow Rich Napoleon Hill",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "self help"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 6,
+    "title": "Ikigai",
+    "author": "Hector Garcia",
+    "genre": "Self Help",
+    "price": 599,
+    "section": "Self Help",
+    "rack": "G2",
+    "description": "Popular self help book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Ikigai-L.jpg",
+    "search_query": "Ikigai Hector Garcia",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "self help",
+      "purpose",
+      "life_direction"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 7,
+    "title": "Essentialism",
+    "author": "Greg McKeown",
+    "genre": "Productivity",
+    "price": 649,
+    "section": "Productivity",
+    "rack": "H3",
+    "description": "Popular productivity book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Essentialism-L.jpg",
+    "search_query": "Essentialism Greg McKeown",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "productivity",
+      "personal_growth",
+      "beginner_friendly"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 8,
+    "title": "The 7 Habits of Highly Effective People",
+    "author": "Stephen Covey",
+    "genre": "Self Help",
+    "price": 699,
+    "section": "Self Help",
+    "rack": "I4",
+    "description": "Popular self help book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+7+Habits+of+Highly+Effective+People-L.jpg",
+    "search_query": "The 7 Habits of Highly Effective People Stephen Covey",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "self help",
+      "habits",
+      "productivity",
+      "personal_growth"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 9,
+    "title": "Start With Why",
+    "author": "Simon Sinek",
+    "genre": "Business",
+    "price": 749,
+    "section": "Business",
+    "rack": "J5",
+    "description": "Popular business book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Start+With+Why-L.jpg",
+    "search_query": "Start With Why Simon Sinek",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "business",
+      "entrepreneurship",
+      "leadership",
+      "purpose",
+      "life_direction"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 10,
+    "title": "Zero to One",
+    "author": "Peter Thiel",
+    "genre": "Business",
+    "price": 299,
+    "section": "Business",
+    "rack": "A1",
+    "description": "Popular business book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Zero+to+One-L.jpg",
+    "search_query": "Zero to One Peter Thiel",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "business",
+      "entrepreneurship",
+      "leadership"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 11,
+    "title": "The Lean Startup",
+    "author": "Eric Ries",
+    "genre": "Business",
+    "price": 349,
+    "section": "Business",
+    "rack": "B2",
+    "description": "Popular business book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Lean+Startup-L.jpg",
+    "search_query": "The Lean Startup Eric Ries",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "business",
+      "entrepreneurship",
+      "leadership"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 12,
+    "title": "Good to Great",
+    "author": "Jim Collins",
+    "genre": "Business",
+    "price": 399,
+    "section": "Business",
+    "rack": "C3",
+    "description": "Popular business book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Good+to+Great-L.jpg",
+    "search_query": "Good to Great Jim Collins",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "business",
+      "entrepreneurship",
+      "leadership"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 13,
+    "title": "The Alchemist",
+    "author": "Paulo Coelho",
+    "genre": "Fiction",
+    "price": 449,
+    "section": "Fiction",
+    "rack": "D4",
+    "description": "Popular fiction book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Alchemist-L.jpg",
+    "search_query": "The Alchemist Paulo Coelho",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "fiction",
+      "purpose",
+      "life_direction"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 14,
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "genre": "Classic",
+    "price": 499,
+    "section": "Classic",
+    "rack": "E5",
+    "description": "Popular classic book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/To+Kill+a+Mockingbird-L.jpg",
+    "search_query": "To Kill a Mockingbird Harper Lee",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "classic"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 15,
+    "title": "1984",
+    "author": "George Orwell",
+    "genre": "Classic",
+    "price": 549,
+    "section": "Classic",
+    "rack": "F1",
+    "description": "Popular classic book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/1984-L.jpg",
+    "search_query": "1984 George Orwell",
+    "readingDifficulty": "advanced",
+    "tags": [
+      "classic"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 16,
+    "title": "Animal Farm",
+    "author": "George Orwell",
+    "genre": "Classic",
+    "price": 599,
+    "section": "Classic",
+    "rack": "G2",
+    "description": "Popular classic book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Animal+Farm-L.jpg",
+    "search_query": "Animal Farm George Orwell",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "classic"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 17,
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "genre": "Classic",
+    "price": 649,
+    "section": "Classic",
+    "rack": "H3",
+    "description": "Popular classic book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Pride+and+Prejudice-L.jpg",
+    "search_query": "Pride and Prejudice Jane Austen",
+    "readingDifficulty": "advanced",
+    "tags": [
+      "classic"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 18,
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "genre": "Classic",
+    "price": 699,
+    "section": "Classic",
+    "rack": "I4",
+    "description": "Popular classic book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Great+Gatsby-L.jpg",
+    "search_query": "The Great Gatsby F. Scott Fitzgerald",
+    "readingDifficulty": "advanced",
+    "tags": [
+      "classic"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 19,
+    "title": "The Catcher in the Rye",
+    "author": "J.D. Salinger",
+    "genre": "Classic",
+    "price": 749,
+    "section": "Classic",
+    "rack": "J5",
+    "description": "Popular classic book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Catcher+in+the+Rye-L.jpg",
+    "search_query": "The Catcher in the Rye J.D. Salinger",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "classic"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 20,
+    "title": "The Book Thief",
+    "author": "Markus Zusak",
+    "genre": "Fiction",
+    "price": 299,
+    "section": "Fiction",
+    "rack": "A1",
+    "description": "Popular fiction book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Book+Thief-L.jpg",
+    "search_query": "The Book Thief Markus Zusak",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "fiction",
+      "beginner_friendly",
+      "fast_paced",
+      "page_turner"
+    ],
+    "targetAudience": "young_adult"
+  },
+  {
+    "id": 21,
+    "title": "The Silent Patient",
+    "author": "Alex Michaelides",
+    "genre": "Thriller",
+    "price": 349,
+    "section": "Thriller",
+    "rack": "B2",
+    "description": "Popular thriller book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Silent+Patient-L.jpg",
+    "search_query": "The Silent Patient Alex Michaelides",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "thriller",
+      "beginner_friendly",
+      "fast_paced",
+      "page_turner"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 22,
+    "title": "Gone Girl",
+    "author": "Gillian Flynn",
+    "genre": "Thriller",
+    "price": 399,
+    "section": "Thriller",
+    "rack": "C3",
+    "description": "Popular thriller book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Gone+Girl-L.jpg",
+    "search_query": "Gone Girl Gillian Flynn",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "thriller",
+      "beginner_friendly",
+      "fast_paced",
+      "page_turner"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 23,
+    "title": "The Girl with the Dragon Tattoo",
+    "author": "Stieg Larsson",
+    "genre": "Thriller",
+    "price": 449,
+    "section": "Thriller",
+    "rack": "D4",
+    "description": "Popular thriller book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Girl+with+the+Dragon+Tattoo-L.jpg",
+    "search_query": "The Girl with the Dragon Tattoo Stieg Larsson",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "thriller",
+      "beginner_friendly",
+      "fast_paced",
+      "page_turner"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 24,
+    "title": "The Da Vinci Code",
+    "author": "Dan Brown",
+    "genre": "Thriller",
+    "price": 499,
+    "section": "Thriller",
+    "rack": "E5",
+    "description": "Popular thriller book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Da+Vinci+Code-L.jpg",
+    "search_query": "The Da Vinci Code Dan Brown",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "thriller",
+      "beginner_friendly",
+      "fast_paced",
+      "page_turner"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 25,
+    "title": "Angels and Demons",
+    "author": "Dan Brown",
+    "genre": "Thriller",
+    "price": 549,
+    "section": "Thriller",
+    "rack": "F1",
+    "description": "Popular thriller book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Angels+and+Demons-L.jpg",
+    "search_query": "Angels and Demons Dan Brown",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "thriller",
+      "beginner_friendly",
+      "fast_paced",
+      "page_turner"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 26,
+    "title": "And Then There Were None",
+    "author": "Agatha Christie",
+    "genre": "Mystery",
+    "price": 599,
+    "section": "Mystery",
+    "rack": "G2",
+    "description": "Popular mystery book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/And+Then+There+Were+None-L.jpg",
+    "search_query": "And Then There Were None Agatha Christie",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "mystery",
+      "beginner_friendly",
+      "fast_paced",
+      "page_turner"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 27,
+    "title": "Murder on the Orient Express",
+    "author": "Agatha Christie",
+    "genre": "Mystery",
+    "price": 649,
+    "section": "Mystery",
+    "rack": "H3",
+    "description": "Popular mystery book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Murder+on+the+Orient+Express-L.jpg",
+    "search_query": "Murder on the Orient Express Agatha Christie",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "mystery",
+      "beginner_friendly",
+      "fast_paced",
+      "page_turner"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 28,
+    "title": "The Hobbit",
+    "author": "J.R.R. Tolkien",
+    "genre": "Fantasy",
+    "price": 699,
+    "section": "Fantasy",
+    "rack": "I4",
+    "description": "Popular fantasy book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Hobbit-L.jpg",
+    "search_query": "The Hobbit J.R.R. Tolkien",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "fantasy",
+      "beginner_friendly",
+      "fast_paced",
+      "page_turner"
+    ],
+    "targetAudience": "young_adult"
+  },
+  {
+    "id": 29,
+    "title": "The Lord of the Rings",
+    "author": "J.R.R. Tolkien",
+    "genre": "Fantasy",
+    "price": 749,
+    "section": "Fantasy",
+    "rack": "J5",
+    "description": "Popular fantasy book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Lord+of+the+Rings-L.jpg",
+    "search_query": "The Lord of the Rings J.R.R. Tolkien",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "fantasy"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 30,
+    "title": "Harry Potter and the Sorcerer's Stone",
+    "author": "J.K. Rowling",
+    "genre": "Fantasy",
+    "price": 299,
+    "section": "Fantasy",
+    "rack": "A1",
+    "description": "Popular fantasy book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Harry+Potter+and+the+Sorcerer's+Stone-L.jpg",
+    "search_query": "Harry Potter and the Sorcerer's Stone J.K. Rowling",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "fantasy",
+      "beginner_friendly",
+      "fast_paced",
+      "page_turner"
+    ],
+    "targetAudience": "young_adult"
+  },
+  {
+    "id": 31,
+    "title": "Harry Potter and the Chamber of Secrets",
+    "author": "J.K. Rowling",
+    "genre": "Fantasy",
+    "price": 349,
+    "section": "Fantasy",
+    "rack": "B2",
+    "description": "Popular fantasy book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Harry+Potter+and+the+Chamber+of+Secrets-L.jpg",
+    "search_query": "Harry Potter and the Chamber of Secrets J.K. Rowling",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "fantasy",
+      "beginner_friendly",
+      "fast_paced",
+      "page_turner"
+    ],
+    "targetAudience": "young_adult"
+  },
+  {
+    "id": 32,
+    "title": "Harry Potter and the Prisoner of Azkaban",
+    "author": "J.K. Rowling",
+    "genre": "Fantasy",
+    "price": 399,
+    "section": "Fantasy",
+    "rack": "C3",
+    "description": "Popular fantasy book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Harry+Potter+and+the+Prisoner+of+Azkaban-L.jpg",
+    "search_query": "Harry Potter and the Prisoner of Azkaban J.K. Rowling",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "fantasy",
+      "beginner_friendly",
+      "fast_paced",
+      "page_turner"
+    ],
+    "targetAudience": "young_adult"
+  },
+  {
+    "id": 33,
+    "title": "A Game of Thrones",
+    "author": "George R.R. Martin",
+    "genre": "Fantasy",
+    "price": 449,
+    "section": "Fantasy",
+    "rack": "D4",
+    "description": "Popular fantasy book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/A+Game+of+Thrones-L.jpg",
+    "search_query": "A Game of Thrones George R.R. Martin",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "fantasy"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 34,
+    "title": "The Name of the Wind",
+    "author": "Patrick Rothfuss",
+    "genre": "Fantasy",
+    "price": 499,
+    "section": "Fantasy",
+    "rack": "E5",
+    "description": "Popular fantasy book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Name+of+the+Wind-L.jpg",
+    "search_query": "The Name of the Wind Patrick Rothfuss",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "fantasy"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 35,
+    "title": "Sapiens",
+    "author": "Yuval Noah Harari",
+    "genre": "History",
+    "price": 549,
+    "section": "History",
+    "rack": "F1",
+    "description": "Popular history book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Sapiens-L.jpg",
+    "search_query": "Sapiens Yuval Noah Harari",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "history"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 36,
+    "title": "Homo Deus",
+    "author": "Yuval Noah Harari",
+    "genre": "History",
+    "price": 599,
+    "section": "History",
+    "rack": "G2",
+    "description": "Popular history book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Homo+Deus-L.jpg",
+    "search_query": "Homo Deus Yuval Noah Harari",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "history"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 37,
+    "title": "21 Lessons for the 21st Century",
+    "author": "Yuval Noah Harari",
+    "genre": "History",
+    "price": 649,
+    "section": "History",
+    "rack": "H3",
+    "description": "Popular history book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/21+Lessons+for+the+21st+Century-L.jpg",
+    "search_query": "21 Lessons for the 21st Century Yuval Noah Harari",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "history"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 38,
+    "title": "Guns, Germs, and Steel",
+    "author": "Jared Diamond",
+    "genre": "History",
+    "price": 699,
+    "section": "History",
+    "rack": "I4",
+    "description": "Popular history book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Guns,+Germs,+and+Steel-L.jpg",
+    "search_query": "Guns, Germs, and Steel Jared Diamond",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "history"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 39,
+    "title": "The Silk Roads",
+    "author": "Peter Frankopan",
+    "genre": "History",
+    "price": 749,
+    "section": "History",
+    "rack": "J5",
+    "description": "Popular history book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Silk+Roads-L.jpg",
+    "search_query": "The Silk Roads Peter Frankopan",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "history"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 40,
+    "title": "A Brief History of Time",
+    "author": "Stephen Hawking",
+    "genre": "Science",
+    "price": 299,
+    "section": "Science",
+    "rack": "A1",
+    "description": "Popular science book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/A+Brief+History+of+Time-L.jpg",
+    "search_query": "A Brief History of Time Stephen Hawking",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "science"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 41,
+    "title": "The Selfish Gene",
+    "author": "Richard Dawkins",
+    "genre": "Science",
+    "price": 349,
+    "section": "Science",
+    "rack": "B2",
+    "description": "Popular science book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Selfish+Gene-L.jpg",
+    "search_query": "The Selfish Gene Richard Dawkins",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "science"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 42,
+    "title": "Cosmos",
+    "author": "Carl Sagan",
+    "genre": "Science",
+    "price": 399,
+    "section": "Science",
+    "rack": "C3",
+    "description": "Popular science book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Cosmos-L.jpg",
+    "search_query": "Cosmos Carl Sagan",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "science"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 43,
+    "title": "The Gene",
+    "author": "Siddhartha Mukherjee",
+    "genre": "Science",
+    "price": 449,
+    "section": "Science",
+    "rack": "D4",
+    "description": "Popular science book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Gene-L.jpg",
+    "search_query": "The Gene Siddhartha Mukherjee",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "science"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 44,
+    "title": "Astrophysics for People in a Hurry",
+    "author": "Neil deGrasse Tyson",
+    "genre": "Science",
+    "price": 499,
+    "section": "Science",
+    "rack": "E5",
+    "description": "Popular science book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Astrophysics+for+People+in+a+Hurry-L.jpg",
+    "search_query": "Astrophysics for People in a Hurry Neil deGrasse Tyson",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "science"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 45,
+    "title": "Steve Jobs",
+    "author": "Walter Isaacson",
+    "genre": "Biography",
+    "price": 549,
+    "section": "Biography",
+    "rack": "F1",
+    "description": "Popular biography book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Steve+Jobs-L.jpg",
+    "search_query": "Steve Jobs Walter Isaacson",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "biography"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 46,
+    "title": "Elon Musk",
+    "author": "Walter Isaacson",
+    "genre": "Biography",
+    "price": 599,
+    "section": "Biography",
+    "rack": "G2",
+    "description": "Popular biography book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Elon+Musk-L.jpg",
+    "search_query": "Elon Musk Walter Isaacson",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "biography"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 47,
+    "title": "Wings of Fire",
+    "author": "A.P.J. Abdul Kalam",
+    "genre": "Biography",
+    "price": 649,
+    "section": "Biography",
+    "rack": "H3",
+    "description": "Popular biography book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Wings+of+Fire-L.jpg",
+    "search_query": "Wings of Fire A.P.J. Abdul Kalam",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "biography"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 48,
+    "title": "Long Walk to Freedom",
+    "author": "Nelson Mandela",
+    "genre": "Biography",
+    "price": 699,
+    "section": "Biography",
+    "rack": "I4",
+    "description": "Popular biography book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Long+Walk+to+Freedom-L.jpg",
+    "search_query": "Long Walk to Freedom Nelson Mandela",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "biography"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 49,
+    "title": "Becoming",
+    "author": "Michelle Obama",
+    "genre": "Biography",
+    "price": 749,
+    "section": "Biography",
+    "rack": "J5",
+    "description": "Popular biography book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Becoming-L.jpg",
+    "search_query": "Becoming Michelle Obama",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "biography"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 50,
+    "title": "The Diary of a Young Girl",
+    "author": "Anne Frank",
+    "genre": "Biography",
+    "price": 299,
+    "section": "Biography",
+    "rack": "A1",
+    "description": "Popular biography book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Diary+of+a+Young+Girl-L.jpg",
+    "search_query": "The Diary of a Young Girl Anne Frank",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "biography"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 51,
+    "title": "Charlotte's Web",
+    "author": "E.B. White",
+    "genre": "Children",
+    "price": 349,
+    "section": "Children",
+    "rack": "B2",
+    "description": "Popular children book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Charlotte's+Web-L.jpg",
+    "search_query": "Charlotte's Web E.B. White",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "children",
+      "beginner_friendly"
+    ],
+    "targetAudience": "children"
+  },
+  {
+    "id": 52,
+    "title": "Matilda",
+    "author": "Roald Dahl",
+    "genre": "Children",
+    "price": 399,
+    "section": "Children",
+    "rack": "C3",
+    "description": "Popular children book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Matilda-L.jpg",
+    "search_query": "Matilda Roald Dahl",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "children",
+      "beginner_friendly"
+    ],
+    "targetAudience": "children"
+  },
+  {
+    "id": 53,
+    "title": "Charlie and the Chocolate Factory",
+    "author": "Roald Dahl",
+    "genre": "Children",
+    "price": 449,
+    "section": "Children",
+    "rack": "D4",
+    "description": "Popular children book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Charlie+and+the+Chocolate+Factory-L.jpg",
+    "search_query": "Charlie and the Chocolate Factory Roald Dahl",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "children",
+      "beginner_friendly"
+    ],
+    "targetAudience": "children"
+  },
+  {
+    "id": 54,
+    "title": "The Very Hungry Caterpillar",
+    "author": "Eric Carle",
+    "genre": "Children",
+    "price": 499,
+    "section": "Children",
+    "rack": "E5",
+    "description": "Popular children book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Very+Hungry+Caterpillar-L.jpg",
+    "search_query": "The Very Hungry Caterpillar Eric Carle",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "children",
+      "beginner_friendly"
+    ],
+    "targetAudience": "children"
+  },
+  {
+    "id": 55,
+    "title": "The Gruffalo",
+    "author": "Julia Donaldson",
+    "genre": "Children",
+    "price": 549,
+    "section": "Children",
+    "rack": "F1",
+    "description": "Popular children book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Gruffalo-L.jpg",
+    "search_query": "The Gruffalo Julia Donaldson",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "children",
+      "beginner_friendly"
+    ],
+    "targetAudience": "children"
+  },
+  {
+    "id": 56,
+    "title": "The Cat in the Hat",
+    "author": "Dr. Seuss",
+    "genre": "Children",
+    "price": 599,
+    "section": "Children",
+    "rack": "G2",
+    "description": "Popular children book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Cat+in+the+Hat-L.jpg",
+    "search_query": "The Cat in the Hat Dr. Seuss",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "children",
+      "beginner_friendly"
+    ],
+    "targetAudience": "children"
+  },
+  {
+    "id": 57,
+    "title": "The Kite Runner",
+    "author": "Khaled Hosseini",
+    "genre": "Fiction",
+    "price": 649,
+    "section": "Fiction",
+    "rack": "H3",
+    "description": "Popular fiction book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Kite+Runner-L.jpg",
+    "search_query": "The Kite Runner Khaled Hosseini",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "fiction"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 58,
+    "title": "A Thousand Splendid Suns",
+    "author": "Khaled Hosseini",
+    "genre": "Fiction",
+    "price": 699,
+    "section": "Fiction",
+    "rack": "I4",
+    "description": "Popular fiction book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/A+Thousand+Splendid+Suns-L.jpg",
+    "search_query": "A Thousand Splendid Suns Khaled Hosseini",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "fiction"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 59,
+    "title": "The Fault in Our Stars",
+    "author": "John Green",
+    "genre": "Fiction",
+    "price": 749,
+    "section": "Fiction",
+    "rack": "J5",
+    "description": "Popular fiction book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Fault+in+Our+Stars-L.jpg",
+    "search_query": "The Fault in Our Stars John Green",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "fiction",
+      "beginner_friendly",
+      "fast_paced",
+      "page_turner"
+    ],
+    "targetAudience": "young_adult"
+  },
+  {
+    "id": 60,
+    "title": "Life of Pi",
+    "author": "Yann Martel",
+    "genre": "Fiction",
+    "price": 299,
+    "section": "Fiction",
+    "rack": "A1",
+    "description": "Popular fiction book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Life+of+Pi-L.jpg",
+    "search_query": "Life of Pi Yann Martel",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "fiction"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 61,
+    "title": "The Midnight Library",
+    "author": "Matt Haig",
+    "genre": "Fiction",
+    "price": 349,
+    "section": "Fiction",
+    "rack": "B2",
+    "description": "Popular fiction book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Midnight+Library-L.jpg",
+    "search_query": "The Midnight Library Matt Haig",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "fiction"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 62,
+    "title": "Where the Crawdads Sing",
+    "author": "Delia Owens",
+    "genre": "Fiction",
+    "price": 399,
+    "section": "Fiction",
+    "rack": "C3",
+    "description": "Popular fiction book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Where+the+Crawdads+Sing-L.jpg",
+    "search_query": "Where the Crawdads Sing Delia Owens",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "fiction"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 63,
+    "title": "The Power of Habit",
+    "author": "Charles Duhigg",
+    "genre": "Self Help",
+    "price": 449,
+    "section": "Self Help",
+    "rack": "D4",
+    "description": "Popular self help book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Power+of+Habit-L.jpg",
+    "search_query": "The Power of Habit Charles Duhigg",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "self help",
+      "habits",
+      "productivity",
+      "personal_growth",
+      "beginner_friendly"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 64,
+    "title": "Can't Hurt Me",
+    "author": "David Goggins",
+    "genre": "Self Help",
+    "price": 499,
+    "section": "Self Help",
+    "rack": "E5",
+    "description": "Popular self help book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Can't+Hurt+Me-L.jpg",
+    "search_query": "Can't Hurt Me David Goggins",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "self help",
+      "personal_growth",
+      "productivity",
+      "beginner_friendly"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 65,
+    "title": "Think Like a Monk",
+    "author": "Jay Shetty",
+    "genre": "Self Help",
+    "price": 549,
+    "section": "Self Help",
+    "rack": "F1",
+    "description": "Popular self help book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Think+Like+a+Monk-L.jpg",
+    "search_query": "Think Like a Monk Jay Shetty",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "self help",
+      "personal_growth",
+      "productivity",
+      "beginner_friendly"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 66,
+    "title": "The Mountain Is You",
+    "author": "Brianna Wiest",
+    "genre": "Self Help",
+    "price": 599,
+    "section": "Self Help",
+    "rack": "G2",
+    "description": "Popular self help book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Mountain+Is+You-L.jpg",
+    "search_query": "The Mountain Is You Brianna Wiest",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "self help",
+      "personal_growth",
+      "productivity"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 67,
+    "title": "Never Split the Difference",
+    "author": "Chris Voss",
+    "genre": "Business",
+    "price": 649,
+    "section": "Business",
+    "rack": "H3",
+    "description": "Popular business book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Never+Split+the+Difference-L.jpg",
+    "search_query": "Never Split the Difference Chris Voss",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "business",
+      "entrepreneurship",
+      "leadership"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 68,
+    "title": "Blue Ocean Strategy",
+    "author": "W. Chan Kim",
+    "genre": "Business",
+    "price": 699,
+    "section": "Business",
+    "rack": "I4",
+    "description": "Popular business book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Blue+Ocean+Strategy-L.jpg",
+    "search_query": "Blue Ocean Strategy W. Chan Kim",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "business",
+      "entrepreneurship",
+      "leadership"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 69,
+    "title": "The Hard Thing About Hard Things",
+    "author": "Ben Horowitz",
+    "genre": "Business",
+    "price": 749,
+    "section": "Business",
+    "rack": "J5",
+    "description": "Popular business book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Hard+Thing+About+Hard+Things-L.jpg",
+    "search_query": "The Hard Thing About Hard Things Ben Horowitz",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "business",
+      "entrepreneurship",
+      "leadership"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 70,
+    "title": "Hooked",
+    "author": "Nir Eyal",
+    "genre": "Business",
+    "price": 299,
+    "section": "Business",
+    "rack": "A1",
+    "description": "Popular business book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Hooked-L.jpg",
+    "search_query": "Hooked Nir Eyal",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "business",
+      "entrepreneurship",
+      "leadership"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 71,
+    "title": "Rework",
+    "author": "Jason Fried",
+    "genre": "Business",
+    "price": 349,
+    "section": "Business",
+    "rack": "B2",
+    "description": "Popular business book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Rework-L.jpg",
+    "search_query": "Rework Jason Fried",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "business",
+      "entrepreneurship",
+      "leadership"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 72,
+    "title": "Crushing It!",
+    "author": "Gary Vaynerchuk",
+    "genre": "Business",
+    "price": 399,
+    "section": "Business",
+    "rack": "C3",
+    "description": "Popular business book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Crushing+It!-L.jpg",
+    "search_query": "Crushing It! Gary Vaynerchuk",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "business",
+      "entrepreneurship",
+      "leadership"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 73,
+    "title": "Educated",
+    "author": "Tara Westover",
+    "genre": "Biography",
+    "price": 449,
+    "section": "Biography",
+    "rack": "D4",
+    "description": "Popular biography book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Educated-L.jpg",
+    "search_query": "Educated Tara Westover",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "biography"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 74,
+    "title": "Shoe Dog",
+    "author": "Phil Knight",
+    "genre": "Biography",
+    "price": 499,
+    "section": "Biography",
+    "rack": "E5",
+    "description": "Popular biography book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Shoe+Dog-L.jpg",
+    "search_query": "Shoe Dog Phil Knight",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "biography"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 75,
+    "title": "The Immortal Life of Henrietta Lacks",
+    "author": "Rebecca Skloot",
+    "genre": "Biography",
+    "price": 549,
+    "section": "Biography",
+    "rack": "F1",
+    "description": "Popular biography book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Immortal+Life+of+Henrietta+Lacks-L.jpg",
+    "search_query": "The Immortal Life of Henrietta Lacks Rebecca Skloot",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "biography"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 76,
+    "title": "Thinking, Fast and Slow",
+    "author": "Daniel Kahneman",
+    "genre": "Psychology",
+    "price": 599,
+    "section": "Psychology",
+    "rack": "G2",
+    "description": "Popular psychology book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Thinking,+Fast+and+Slow-L.jpg",
+    "search_query": "Thinking, Fast and Slow Daniel Kahneman",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "psychology"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 77,
+    "title": "Influence",
+    "author": "Robert Cialdini",
+    "genre": "Psychology",
+    "price": 649,
+    "section": "Psychology",
+    "rack": "H3",
+    "description": "Popular psychology book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Influence-L.jpg",
+    "search_query": "Influence Robert Cialdini",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "psychology"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 78,
+    "title": "Predictably Irrational",
+    "author": "Dan Ariely",
+    "genre": "Psychology",
+    "price": 699,
+    "section": "Psychology",
+    "rack": "I4",
+    "description": "Popular psychology book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Predictably+Irrational-L.jpg",
+    "search_query": "Predictably Irrational Dan Ariely",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "psychology"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 79,
+    "title": "Quiet",
+    "author": "Susan Cain",
+    "genre": "Psychology",
+    "price": 749,
+    "section": "Psychology",
+    "rack": "J5",
+    "description": "Popular psychology book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Quiet-L.jpg",
+    "search_query": "Quiet Susan Cain",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "psychology"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 80,
+    "title": "Dune",
+    "author": "Frank Herbert",
+    "genre": "Science Fiction",
+    "price": 299,
+    "section": "Science Fiction",
+    "rack": "A1",
+    "description": "Popular science fiction book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Dune-L.jpg",
+    "search_query": "Dune Frank Herbert",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "science fiction"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 81,
+    "title": "Project Hail Mary",
+    "author": "Andy Weir",
+    "genre": "Science Fiction",
+    "price": 349,
+    "section": "Science Fiction",
+    "rack": "B2",
+    "description": "Popular science fiction book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Project+Hail+Mary-L.jpg",
+    "search_query": "Project Hail Mary Andy Weir",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "science fiction"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 82,
+    "title": "The Martian",
+    "author": "Andy Weir",
+    "genre": "Science Fiction",
+    "price": 399,
+    "section": "Science Fiction",
+    "rack": "C3",
+    "description": "Popular science fiction book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Martian-L.jpg",
+    "search_query": "The Martian Andy Weir",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "science fiction"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 83,
+    "title": "Ready Player One",
+    "author": "Ernest Cline",
+    "genre": "Science Fiction",
+    "price": 449,
+    "section": "Science Fiction",
+    "rack": "D4",
+    "description": "Popular science fiction book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Ready+Player+One-L.jpg",
+    "search_query": "Ready Player One Ernest Cline",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "science fiction",
+      "gaming",
+      "fast_paced"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 84,
+    "title": "The Hunger Games",
+    "author": "Suzanne Collins",
+    "genre": "Young Adult",
+    "price": 499,
+    "section": "Young Adult",
+    "rack": "E5",
+    "description": "Popular young adult book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Hunger+Games-L.jpg",
+    "search_query": "The Hunger Games Suzanne Collins",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "young adult"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 85,
+    "title": "Catching Fire",
+    "author": "Suzanne Collins",
+    "genre": "Young Adult",
+    "price": 549,
+    "section": "Young Adult",
+    "rack": "F1",
+    "description": "Popular young adult book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Catching+Fire-L.jpg",
+    "search_query": "Catching Fire Suzanne Collins",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "young adult"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 86,
+    "title": "Mockingjay",
+    "author": "Suzanne Collins",
+    "genre": "Young Adult",
+    "price": 599,
+    "section": "Young Adult",
+    "rack": "G2",
+    "description": "Popular young adult book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Mockingjay-L.jpg",
+    "search_query": "Mockingjay Suzanne Collins",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "young adult"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 87,
+    "title": "The Maze Runner",
+    "author": "James Dashner",
+    "genre": "Young Adult",
+    "price": 649,
+    "section": "Young Adult",
+    "rack": "H3",
+    "description": "Popular young adult book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Maze+Runner-L.jpg",
+    "search_query": "The Maze Runner James Dashner",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "young adult",
+      "gaming",
+      "fast_paced"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 88,
+    "title": "Percy Jackson and the Lightning Thief",
+    "author": "Rick Riordan",
+    "genre": "Fantasy",
+    "price": 699,
+    "section": "Fantasy",
+    "rack": "I4",
+    "description": "Popular fantasy book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Percy+Jackson+and+the+Lightning+Thief-L.jpg",
+    "search_query": "Percy Jackson and the Lightning Thief Rick Riordan",
+    "readingDifficulty": "beginner",
+    "tags": [
+      "fantasy",
+      "beginner_friendly",
+      "fast_paced",
+      "page_turner"
+    ],
+    "targetAudience": "young_adult"
+  },
+  {
+    "id": 89,
+    "title": "The Sea of Monsters",
+    "author": "Rick Riordan",
+    "genre": "Fantasy",
+    "price": 749,
+    "section": "Fantasy",
+    "rack": "J5",
+    "description": "Popular fantasy book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Sea+of+Monsters-L.jpg",
+    "search_query": "The Sea of Monsters Rick Riordan",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "fantasy"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 90,
+    "title": "The Titan's Curse",
+    "author": "Rick Riordan",
+    "genre": "Fantasy",
+    "price": 299,
+    "section": "Fantasy",
+    "rack": "A1",
+    "description": "Popular fantasy book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Titan's+Curse-L.jpg",
+    "search_query": "The Titan's Curse Rick Riordan",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "fantasy"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 91,
+    "title": "Rich Dad's Cashflow Quadrant",
+    "author": "Robert Kiyosaki",
+    "genre": "Finance",
+    "price": 349,
+    "section": "Finance",
+    "rack": "B2",
+    "description": "Popular finance book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Rich+Dad's+Cashflow+Quadrant-L.jpg",
+    "search_query": "Rich Dad's Cashflow Quadrant Robert Kiyosaki",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "finance"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 92,
+    "title": "The Intelligent Investor",
+    "author": "Benjamin Graham",
+    "genre": "Finance",
+    "price": 399,
+    "section": "Finance",
+    "rack": "C3",
+    "description": "Popular finance book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Intelligent+Investor-L.jpg",
+    "search_query": "The Intelligent Investor Benjamin Graham",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "finance"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 93,
+    "title": "Common Stocks and Uncommon Profits",
+    "author": "Philip Fisher",
+    "genre": "Finance",
+    "price": 449,
+    "section": "Finance",
+    "rack": "D4",
+    "description": "Popular finance book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Common+Stocks+and+Uncommon+Profits-L.jpg",
+    "search_query": "Common Stocks and Uncommon Profits Philip Fisher",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "finance"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 94,
+    "title": "The Little Book of Common Sense Investing",
+    "author": "John C. Bogle",
+    "genre": "Finance",
+    "price": 499,
+    "section": "Finance",
+    "rack": "E5",
+    "description": "Popular finance book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/The+Little+Book+of+Common+Sense+Investing-L.jpg",
+    "search_query": "The Little Book of Common Sense Investing John C. Bogle",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "finance"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 95,
+    "title": "Make Your Bed",
+    "author": "William H. McRaven",
+    "genre": "Self Help",
+    "price": 549,
+    "section": "Self Help",
+    "rack": "F1",
+    "description": "Popular self help book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Make+Your+Bed-L.jpg",
+    "search_query": "Make Your Bed William H. McRaven",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "self help"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 96,
+    "title": "Atomic Focus",
+    "author": "Marco Ferrante",
+    "genre": "Productivity",
+    "price": 599,
+    "section": "Productivity",
+    "rack": "G2",
+    "description": "Popular productivity book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Atomic+Focus-L.jpg",
+    "search_query": "Atomic Focus Marco Ferrante",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "productivity"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 97,
+    "title": "Digital Minimalism",
+    "author": "Cal Newport",
+    "genre": "Productivity",
+    "price": 649,
+    "section": "Productivity",
+    "rack": "H3",
+    "description": "Popular productivity book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/Digital+Minimalism-L.jpg",
+    "search_query": "Digital Minimalism Cal Newport",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "productivity"
+    ],
+    "targetAudience": "adult"
+  },
+  {
+    "id": 98,
+    "title": "So Good They Can't Ignore You",
+    "author": "Cal Newport",
+    "genre": "Productivity",
+    "price": 699,
+    "section": "Productivity",
+    "rack": "I4",
+    "description": "Popular productivity book suitable for bookstore recommendation demos.",
+    "cover_image_url": "https://covers.openlibrary.org/b/title/So+Good+They+Can't+Ignore+You-L.jpg",
+    "search_query": "So Good They Can't Ignore You Cal Newport",
+    "readingDifficulty": "intermediate",
+    "tags": [
+      "productivity"
+    ],
+    "targetAudience": "adult"
+  }
+]
