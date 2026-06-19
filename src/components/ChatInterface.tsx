@@ -107,8 +107,6 @@ export function ChatInterface() {
       let recommendations = data.recommendations || [];
       let messageText = data.message || "";
 
-      let recommendations = data.recommendations || [];
-      let messageText = data.message || "";
 
       // Allow the backend Conversation-First logic to shine.
       // If the backend returned 0 recommendations but provided a question, render exactly that.
