@@ -234,17 +234,17 @@ export function ChatInterface() {
   ];
 
   return (
-    <div className="flex flex-col h-[100dvh] w-full max-w-4xl mx-auto bg-background overflow-hidden relative" style={{ paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'env(safe-area-inset-bottom)' }}>
+    <div className="flex flex-col h-[100dvh] w-full bg-background relative" style={{ paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'env(safe-area-inset-bottom)' }}>
       
-      {/* Session Header / Reset */}
-      <div className="flex justify-between items-center px-4 py-3 bg-background/80 border-b border-border text-sm backdrop-blur-md sticky top-0 z-20">
-        <span className="font-bold text-foreground flex items-center gap-1.5">
-          📚 BookGuide AI
+      {/* Minimalist Header */}
+      <div className="flex justify-between items-center px-4 h-12 bg-background/95 backdrop-blur-sm sticky top-0 z-20 border-b border-transparent">
+        <span className="font-bold text-foreground flex items-center gap-1.5 text-sm">
+          📚 BookGuide
         </span>
         {messages.length > 0 && (
           <button 
             onClick={resetSession}
-            className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded-md hover:bg-muted"
+            className="flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors px-2 py-1"
           >
             <RefreshCw size={12} /> New Chat
           </button>
@@ -254,18 +254,19 @@ export function ChatInterface() {
       <div 
         ref={scrollContainerRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 lg:p-8 space-y-6 relative"
+        className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 pt-2 pb-32 space-y-6 relative"
+        style={{ WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain' }}
       >
         {messages.length === 0 ? (
-          <div className="h-full flex flex-col items-center justify-center text-center max-w-xl mx-auto px-2">
-            <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-6 sm:mb-8 tracking-tight">📚 What are you looking for today?</h2>
+          <div className="h-full flex flex-col items-center justify-center text-center max-w-xl mx-auto px-2 mt-[-48px]">
+            <h2 className="text-xl sm:text-2xl font-semibold text-foreground mb-6 tracking-tight">📚 What are you looking for today?</h2>
             
-            <div className="grid grid-cols-2 gap-2 sm:gap-3 w-full">
+            <div className="grid grid-cols-2 gap-2 w-full">
               {suggestedPrompts.map((prompt, idx) => (
                 <button
                   key={idx}
                   onClick={() => submitQuery(prompt.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF] |✨ |💰 |🐉 |🌱 |🚀 |🎁 /g, ''))}
-                  className="bg-card hover:bg-accent/10 border border-border/60 hover:border-primary/30 text-[11px] sm:text-sm font-semibold px-3 py-3 sm:py-4 rounded-xl transition-all text-foreground/80 shadow-sm hover:shadow-md active:scale-95 flex items-center justify-center text-center"
+                  className="bg-muted/30 hover:bg-muted text-[13px] font-medium px-3 py-3 rounded-xl transition-all text-foreground/80 flex items-center justify-center text-center"
                 >
                   {prompt}
                 </button>
@@ -282,11 +283,11 @@ export function ChatInterface() {
                 className={"flex " + (message.role === 'user' ? 'justify-end' : 'justify-start w-full')}
               >
                 <div
-                  className={"p-3 sm:p-5 rounded-2xl shadow-sm leading-relaxed " + (
+                  className={
                     message.role === 'user'
-                      ? 'bg-foreground text-background rounded-br-sm max-w-[85%] sm:max-w-[75%]'
-                      : 'bg-muted/40 text-foreground rounded-bl-sm border border-border/40 w-full sm:w-[90%] md:w-[85%]'
-                  )}
+                      ? 'p-3.5 bg-muted/50 text-foreground rounded-2xl rounded-br-sm max-w-[85%] text-[15px] leading-relaxed'
+                      : 'w-full text-foreground text-[15px] leading-relaxed max-w-3xl mx-auto'
+                  }
                 >
                   {renderMessageContent(message)}
                 </div>
@@ -297,19 +298,19 @@ export function ChatInterface() {
         
         {isLoading && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-start w-full">
-            <div className="bg-muted/40 border border-border/40 p-4 rounded-2xl rounded-bl-sm flex flex-col gap-3 w-full sm:w-[90%] md:w-[85%]">
-              <div className="flex items-center gap-2">
+            <div className="flex flex-col gap-3 w-full">
+              <div className="flex items-center gap-2 px-1">
                 <span className="flex gap-1">
                   <span className="w-1.5 h-1.5 bg-foreground/40 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
                   <span className="w-1.5 h-1.5 bg-foreground/40 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
                   <span className="w-1.5 h-1.5 bg-foreground/40 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                 </span>
-                <span className="text-xs font-semibold text-muted-foreground ml-2">{loadingMessages[loadingStep]}</span>
+                <span className="text-[13px] font-medium text-muted-foreground ml-2">{loadingMessages[loadingStep]}</span>
               </div>
             </div>
           </motion.div>
         )}
-        <div ref={messagesEndRef} className="h-2" />
+        <div ref={messagesEndRef} className="h-4" />
       </div>
 
       <AnimatePresence>
@@ -319,15 +320,15 @@ export function ChatInterface() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             onClick={scrollToBottom}
-            className="absolute bottom-24 right-1/2 translate-x-1/2 bg-background border border-border shadow-md text-foreground text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1 z-30"
+            className="absolute bottom-[90px] right-1/2 translate-x-1/2 bg-background border border-border/50 shadow-md text-foreground text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1 z-30"
           >
             ⬇ New Messages
           </motion.button>
         )}
       </AnimatePresence>
 
-      <div className="p-3 sm:p-4 bg-background">
-        <form onSubmit={handleSubmit} className="flex gap-2 items-end relative max-w-3xl mx-auto w-full bg-muted/30 border border-border/50 rounded-3xl p-1.5 shadow-sm focus-within:ring-1 focus-within:ring-border/80 transition-all">
+      <div className="absolute bottom-4 left-4 right-4 sm:left-auto sm:right-auto sm:w-full sm:max-w-2xl sm:mx-auto z-40 flex flex-col justify-center pointer-events-none">
+        <form onSubmit={handleSubmit} className="flex gap-2 items-end bg-background/95 backdrop-blur-md border border-border/40 rounded-3xl p-1.5 shadow-lg pointer-events-auto">
           <textarea
             ref={inputRef}
             value={input}
@@ -343,8 +344,8 @@ export function ChatInterface() {
                 handleSubmit();
               }
             }}
-            placeholder="Message BookGuide AI..."
-            className="w-full bg-transparent px-4 py-2.5 focus:outline-none resize-none text-sm sm:text-base max-h-[120px] scrollbar-thin"
+            placeholder="Ask about books..."
+            className="w-full bg-transparent px-4 py-2.5 focus:outline-none resize-none text-[15px] max-h-[120px] scrollbar-thin"
             rows={1}
             style={{ height: '44px' }}
           />
@@ -356,7 +357,6 @@ export function ChatInterface() {
             <Send size={16} className="translate-x-[1px]" />
           </button>
         </form>
-        <p className="text-center text-[10px] text-muted-foreground mt-2">BookGuide AI can make mistakes. Verify important information.</p>
       </div>
     </div>
   );

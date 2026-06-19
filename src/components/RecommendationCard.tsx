@@ -32,10 +32,10 @@ export function RecommendationCard({ book, whyRecommended, reasonType }: Recomme
     <motion.div
       initial={{ opacity: 0, y: 5 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex flex-col my-2 w-full"
+      className="flex flex-col my-3 w-full max-w-sm bg-muted/20 border border-border/30 rounded-2xl p-3"
     >
       <div className="flex flex-row gap-3">
-        <div className="w-[60px] flex-shrink-0 relative flex flex-col items-center justify-start mt-1">
+        <div className="w-[60px] flex-shrink-0 relative flex flex-col items-center justify-start mt-0.5">
           {imageLoading && !imageError && (
             <div className="absolute inset-0 flex items-center justify-center bg-muted/40 animate-pulse">
               <BookOpen className="w-5 h-5 text-muted-foreground/30" />
@@ -128,7 +128,7 @@ export function RecommendationCard({ book, whyRecommended, reasonType }: Recomme
 
 export function RecommendationCardSkeleton() {
   return (
-    <div className="flex flex-row gap-3 my-2 w-full animate-pulse">
+    <div className="flex flex-row gap-3 my-3 w-full max-w-sm bg-muted/20 border border-border/30 rounded-2xl p-3 animate-pulse">
       <div className="w-[60px] aspect-[2/3] flex-shrink-0 bg-muted/40 rounded-md" />
       <div className="flex flex-col flex-grow py-1">
         <div className="flex justify-between items-start gap-2 mb-2">
