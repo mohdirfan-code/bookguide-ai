@@ -72,13 +72,13 @@ export async function POST(req: Request) {
       Your job is to help customers discover books, find gifts, and navigate the store based on deep reader intent.
 
       CRITICAL RULES & GUARDRAILS:
-      1. CATALOG ONLY: ONLY recommend books explicitly provided in the "Available Books Catalog" below. NEVER invent, hallucinate, or recommend outside books.
-      2. BUDGET ENFORCEMENT: If a 'budget' is set, YOU MUST NOT recommend any book where the price exceeds the budget.
-      3. AVOID REPETITION: Avoid recommending books already in the 'alreadyRecommended' list.
-      4. MANDATORY GIFT AGE: If the user is looking for a gift, YOU MUST ASK for the recipient's age before making any recommendations.
-      5. RELUCTANT READERS: If the user hasn't read in years, dislikes reading, or wants an "easy" book, prioritize 'beginner' difficulty and 'fast_paced' books. Strictly avoid 'advanced' classics or long epics.
-      6. AGE-AWARENESS: Strictly respect target audiences. Do not recommend children's books to adults, and vice versa. 
-      7. THE ATOMIC HABITS RULE: If a user likes "Atomic Habits", they are looking for 'productivity' or 'personal_growth'. Recommend books like "Deep Work" or "Make Your Bed". DO NOT recommend Business/Finance books like "Rich Dad Poor Dad" unless they explicitly ask for business.
+      1. EXACTLY ONE RECOMMENDATION: You must return exactly ONE top recommendation. Do NOT return multiple books. If the user wants more, they will explicitly ask for options.
+      2. CONVERSATION FIRST: If the user's request is vague (e.g. "Recommend a book for my father"), DO NOT guess. Return 0 recommendations and ask ONE clarifying question (e.g., "How old is he and what genres does he like?"). 
+      3. CATALOG ONLY: ONLY recommend books explicitly provided in the "Available Books Catalog" below. NEVER invent or hallucinate books.
+      4. BUDGET ENFORCEMENT: If a 'budget' is set, YOU MUST NOT recommend any book where the price exceeds the budget.
+      5. AVOID REPETITION: Avoid recommending books already in the 'alreadyRecommended' list.
+      6. RELUCTANT READERS: If the user hasn't read in years, dislikes reading, or wants an "easy" book, prioritize 'beginner' difficulty and 'fast_paced' books. Strictly avoid 'advanced' classics or long epics.
+      7. AGE-AWARENESS: Strictly respect target audiences. Do not recommend children's books to adults, and vice versa. 
       8. EXPLANATION QUALITY: Recommendation 'reason' must be highly personalized. 
          - BAD: "This is a popular fantasy book."
          - GOOD: "Since your brother enjoys gaming and movies, this fast-paced adventure will keep him engaged even if he doesn't read often."
@@ -159,11 +159,27 @@ export async function POST(req: Request) {
         return { ...rec, confidence: 0 };
       });
 
-      // 2. Append to alreadyRecommended
-      const newTitles = data.recommendations.map((r: any) => r.title);
-      if (!data.profileUpdate) data.profileUpdate = {};
-      const currentAlreadyRecommended = profile.alreadyRecommended || [];
-      data.profileUpdate.alreadyRecommended = Array.from(new Set([...currentAlreadyRecommended, ...newTitles]));
+      // 2. Conversation-First Mode: Enforce Confidence Threshold
+      let maxConfidence = 0;
+      if (data.recommendations.length > 0) {
+        maxConfidence = Math.max(...data.recommendations.map((r: any) => r.confidence));
+      }
+
+      if (maxConfidence < 70) {
+        // Wipe recommendations if we aren't confident, force a clarifying question
+        data.recommendations = [];
+        if (!data.followUpQuestion) {
+          data.followUpQuestion = "To help me find the absolute perfect book for you, could you tell me a little bit more about what you enjoy or are looking for?";
+        }
+      }
+
+      // 3. Append to alreadyRecommended (only if we actually recommended something)
+      if (data.recommendations.length > 0) {
+        const newTitles = data.recommendations.map((r: any) => r.title);
+        if (!data.profileUpdate) data.profileUpdate = {};
+        const currentAlreadyRecommended = profile.alreadyRecommended || [];
+        data.profileUpdate.alreadyRecommended = Array.from(new Set([...currentAlreadyRecommended, ...newTitles]));
+      }
     }
 
     return new Response(JSON.stringify(data), {

@@ -107,12 +107,18 @@ export function ChatInterface() {
       let recommendations = data.recommendations || [];
       let messageText = data.message || "";
 
-      if (recommendations.length === 0) {
+      let recommendations = data.recommendations || [];
+      let messageText = data.message || "";
+
+      // Allow the backend Conversation-First logic to shine.
+      // If the backend returned 0 recommendations but provided a question, render exactly that.
+      // If it failed completely (no recommendations, no question), only then do a generic fallback.
+      if (recommendations.length === 0 && !data.followUpQuestion) {
         messageText = "I couldn't find a perfect match for that exact request, but here are a few popular books available in the store that you might enjoy.";
-        // Fallback to top 3 popular books
+        // Fallback to top 1 popular book for compact UI
         recommendations = catalog
-          .filter(b => b.targetAudience !== 'children') // generic fallback
-          .slice(0, 3)
+          .filter(b => b.targetAudience !== 'children')
+          .slice(0, 1)
           .map(b => ({
             title: b.title,
             reason: "A highly popular and beloved book from our catalog.",
@@ -164,26 +170,26 @@ export function ChatInterface() {
               return <RecommendationCard key={idx} book={book} whyRecommended={rec.reason} reasonType={rec.reasonType} />;
             })}
             
-            {/* Action Buttons */}
+            {/* Action Buttons - V2 Compact Chips */}
             {message === messages[messages.length - 1] && (
-              <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-border/50">
+              <div className="flex flex-wrap gap-2 mt-2 pt-3 border-t border-border/50">
                 <button
-                  onClick={() => submitQuery("Can you recommend books similar to these?")}
-                  className="flex items-center gap-1.5 text-xs font-semibold bg-primary/10 text-primary hover:bg-primary/20 px-3 py-2 rounded-full transition-colors"
+                  onClick={() => submitQuery("Can you recommend books similar to this?")}
+                  className="flex items-center gap-1.5 text-xs font-semibold bg-primary/10 text-primary hover:bg-primary/20 px-3 py-1.5 rounded-full transition-colors"
                 >
-                  <Search size={14} /> Find Similar Books
+                  <Search size={14} /> Similar
                 </button>
                 <button
                   onClick={() => submitQuery("None of these quite fit. Can you recommend something else?")}
-                  className="flex items-center gap-1.5 text-xs font-semibold bg-muted hover:bg-muted/80 text-foreground px-3 py-2 rounded-full transition-colors"
+                  className="flex items-center gap-1.5 text-xs font-semibold bg-muted hover:bg-muted/80 text-foreground px-3 py-1.5 rounded-full transition-colors"
                 >
-                  <RefreshCw size={14} /> Recommend Something Else
+                  <RefreshCw size={14} /> More
                 </button>
                 <button
                   onClick={() => inputRef.current?.focus()}
-                  className="flex items-center gap-1.5 text-xs font-semibold bg-muted hover:bg-muted/80 text-foreground px-3 py-2 rounded-full transition-colors"
+                  className="flex items-center gap-1.5 text-xs font-semibold bg-muted hover:bg-muted/80 text-foreground px-3 py-1.5 rounded-full transition-colors"
                 >
-                  <ChevronRight size={14} /> Ask Another Question
+                  <ChevronRight size={14} /> Ask
                 </button>
               </div>
             )}
@@ -200,12 +206,12 @@ export function ChatInterface() {
   };
 
   const suggestedPrompts = [
-    "📚 Recommend a good thriller",
-    "🎁 Find a gift for a teenager",
-    "💰 Books under ₹500",
-    "🚀 Best books for entrepreneurs",
-    "🧠 I liked Atomic Habits",
-    "📖 Recommend a book for my retired father"
+    "🎁 Gift for Someone",
+    "🚀 Improve Productivity",
+    "🌱 Easy Beginner Books",
+    "🐉 Fantasy Books",
+    "💰 Books Under ₹500",
+    "✨ Surprise Me"
   ];
 
   return (
@@ -213,9 +219,9 @@ export function ChatInterface() {
       
       {/* Session Header / Reset */}
       {messages.length > 0 && (
-        <div className="flex justify-between items-center px-4 py-3 bg-muted/30 border-b border-border text-sm backdrop-blur-sm sticky top-0 z-20">
-          <span className="font-medium text-muted-foreground flex items-center gap-1.5">
-            <Sparkles size={14} className="text-primary" /> BookGuide AI Assistant
+        <div className="flex justify-between items-center px-4 py-2 bg-muted/30 border-b border-border text-sm backdrop-blur-sm sticky top-0 z-20">
+          <span className="font-bold text-foreground flex items-center gap-1.5">
+            <Sparkles size={14} className="text-primary" /> BookGuide AI
           </span>
           <button 
             onClick={resetSession}
@@ -228,19 +234,15 @@ export function ChatInterface() {
 
       <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 lg:p-8 space-y-6">
         {messages.length === 0 ? (
-          <div className="h-full flex flex-col items-center justify-center text-center max-w-2xl mx-auto px-4 py-8">
-            <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
-              <Sparkles className="w-8 h-8 text-primary" />
-            </div>
-            <h2 className="text-3xl font-bold text-foreground mb-3 tracking-tight">Welcome to BookGuide AI</h2>
-            <p className="text-muted-foreground text-lg mb-10">Tell me what you're looking for and I'll help you find the perfect book.</p>
+          <div className="h-full flex flex-col items-center justify-center text-center max-w-2xl mx-auto px-4 py-4 sm:py-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-8 tracking-tight">📚 What are you looking for today?</h2>
             
-            <div className="flex flex-wrap justify-center gap-3 w-full">
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 w-full">
               {suggestedPrompts.map((prompt, idx) => (
                 <button
                   key={idx}
                   onClick={() => submitQuery(prompt)}
-                  className="bg-card hover:bg-accent/10 border border-border/60 hover:border-primary/30 text-sm font-medium px-4 py-3 rounded-xl transition-all text-foreground shadow-sm hover:shadow-md active:scale-95 flex items-center"
+                  className="bg-card hover:bg-accent/10 border border-border/60 hover:border-primary/30 text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-full transition-all text-foreground shadow-sm hover:shadow-md active:scale-95 flex items-center"
                 >
                   {prompt}
                 </button>
