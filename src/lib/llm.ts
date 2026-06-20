@@ -19,7 +19,7 @@ export class GroqProvider implements LLMProvider {
 
   constructor() {
     this.groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-    this.model = "openai/gpt-oss-120b";
+    this.model = "llama-3.3-70b-versatile";
   }
 
   async generateResponse(
@@ -53,20 +53,24 @@ ${schemaInstruction}
     let status = "success";
 
     try {
+      const completionStart = Date.now();
       const completion = await this.groq.chat.completions.create({
         messages: formattedMessages as any,
         model: this.model,
         temperature: 0.7,
         response_format: { type: "json_object" }
       });
+      const llmTime = Date.now() - completionStart;
 
       const responseText = completion.choices[0]?.message?.content || "{}";
       const cleanedText = responseText.replace(/```json\n?|\n?```/g, '').trim();
       
-      const responseTime = Date.now() - startTime;
-      console.log(`[LLM Performance] Provider: ${this.name} | Model: ${this.model} | Time: ${responseTime}ms | Status: ${status}`);
-
-      return JSON.parse(cleanedText);
+      const parseStart = Date.now();
+      const data = JSON.parse(cleanedText);
+      const parseTime = Date.now() - parseStart;
+      
+      data._perf = { llm: llmTime, parse: parseTime };
+      return data;
     } catch (error) {
       status = "failure";
       const responseTime = Date.now() - startTime;
@@ -112,6 +116,7 @@ ${JSON.stringify(profile)}
     let status = "success";
 
     try {
+      const completionStart = Date.now();
       const response = await this.ai.models.generateContent({
         model: this.model,
         contents: formattedMessages,
@@ -163,14 +168,17 @@ ${JSON.stringify(profile)}
           }
         }
       });
+      const llmTime = Date.now() - completionStart;
 
       const rawText = response.text;
       const cleanedText = rawText.replace(/```json\n?|\n?```/g, '').trim();
       
-      const responseTime = Date.now() - startTime;
-      console.log(`[LLM Performance] Provider: ${this.name} | Model: ${this.model} | Time: ${responseTime}ms | Status: ${status}`);
+      const parseStart = Date.now();
+      const data = JSON.parse(cleanedText);
+      const parseTime = Date.now() - parseStart;
 
-      return JSON.parse(cleanedText);
+      data._perf = { llm: llmTime, parse: parseTime };
+      return data;
     } catch (error) {
       status = "failure";
       const responseTime = Date.now() - startTime;

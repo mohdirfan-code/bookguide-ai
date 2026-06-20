@@ -270,7 +270,7 @@ export function ChatInterface() {
                 <button
                   key={idx}
                   onClick={() => submitQuery(prompt.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF] |✨ |💰 |🐉 |🌱 |🚀 |🎁 /g, ''))}
-                  className="bg-muted/30 hover:bg-muted text-[13px] font-medium px-3 py-3 rounded-xl transition-all text-foreground/80 flex items-center justify-center text-center"
+                  className="bg-muted/30 hover:bg-muted text-[13px] font-medium px-3 py-3 rounded-xl transition-all text-foreground flex items-center justify-center text-center border border-border shadow-sm hover:shadow-md"
                 >
                   {prompt}
                 </button>
@@ -361,9 +361,9 @@ export function ChatInterface() {
             <button
               type="submit"
               disabled={!input.trim() || isLoading}
-              className="p-2 mb-0.5 mr-0.5 bg-foreground text-background rounded-full hover:opacity-80 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex-shrink-0"
+              className="p-2 mb-0.5 mr-0.5 bg-primary text-primary-foreground rounded-full hover:opacity-90 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex-shrink-0 shadow-sm"
             >
-              <Send size={16} className="translate-x-[1px]" />
+              <Send size={18} className="translate-x-[1px] translate-y-[1px] w-[18px] h-[18px]" />
             </button>
           </form>
         </div>

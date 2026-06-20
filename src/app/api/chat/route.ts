@@ -62,10 +62,13 @@ function calculateConfidence(book: Book, profile: Record<string, any>): number {
 }
 
 export async function POST(req: Request) {
+  const tStart = Date.now();
   try {
     const { messages, profile = {} } = await req.json();
 
+    const tCatalogStart = Date.now();
     const catalogContext = getCompressedCatalogContext();
+    const tCatalog = Date.now() - tCatalogStart;
 
     const systemInstruction = `
       You are BookGuide AI, an expert, friendly, and highly professional assistant at a premium bookstore.
@@ -145,6 +148,12 @@ export async function POST(req: Request) {
         profileUpdate: {}
       };
     }
+
+    const perf = data._perf || { llm: 0, parse: 0 };
+    delete data._perf;
+    const tTotal = Date.now() - tStart;
+    
+    console.log(`\n[Performance]\nCatalog: ${tCatalog} ms\nLLM: ${perf.llm} ms\nParse: ${perf.parse} ms\nTotal: ${tTotal} ms\n`);
 
     // Backend Processing
     
