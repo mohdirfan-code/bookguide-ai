@@ -27,7 +27,10 @@ export function ChatInterface() {
   const [catalog, setCatalog] = useState<Book[]>([]);
   const [showScrollButton, setShowScrollButton] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [profile, setProfile] = useState<Record<string, any>>({});
+  const [profile, setProfile] = useState<Record<string, any>>({
+    clarificationCount: 0,
+    lastQuestionAsked: null
+  });
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -105,21 +108,26 @@ export function ChatInterface() {
       const data = await response.json();
       
       // Safely merge profile updates (arrays like alreadyRecommended should be merged, not overwritten)
-      if (data.profileUpdate) {
+      if (data.profileUpdate || data.followUpQuestion) {
         setProfile(prev => {
           const newProfile = { ...prev };
-          for (const key in data.profileUpdate) {
-            if (Array.isArray(data.profileUpdate[key])) {
-              const prevArray = Array.isArray(prev[key]) ? prev[key] : [];
-              newProfile[key] = Array.from(new Set([...prevArray, ...data.profileUpdate[key]]));
-            } else {
-              newProfile[key] = data.profileUpdate[key];
+          if (data.profileUpdate) {
+            for (const key in data.profileUpdate) {
+              if (Array.isArray(data.profileUpdate[key])) {
+                const prevArray = Array.isArray(prev[key]) ? prev[key] : [];
+                newProfile[key] = Array.from(new Set([...prevArray, ...data.profileUpdate[key]]));
+              } else {
+                newProfile[key] = data.profileUpdate[key];
+              }
             }
+          }
+          if (data.followUpQuestion) {
+            newProfile.clarificationCount = (newProfile.clarificationCount || 0) + 1;
+            newProfile.lastQuestionAsked = data.followUpQuestion;
           }
           return newProfile;
         });
       }
-
       let recommendations = data.recommendations || [];
       let messageText = data.message || "";
 

@@ -6,22 +6,22 @@ import { getLLMProvider } from '@/lib/llm';
 function calculateConfidence(book: Book, profile: Record<string, any>): number {
   let score = 50; // Base score
   
-  // Budget Match
-  if (profile.budget && book.price <= profile.budget) score += 15;
-
-  // Genre Match
+  // V6: Relaxed matching for core categories
   if (profile.favoriteGenres && Array.isArray(profile.favoriteGenres)) {
-    if (profile.favoriteGenres.some(g => g.toLowerCase() === book.genre.toLowerCase())) score += 10;
+    if (profile.favoriteGenres.some(g => g.toLowerCase() === book.genre.toLowerCase())) score += 30; // Boost genre match
   }
+
+  // Budget Match
+  if (profile.budget && book.price <= profile.budget) score += 20;
 
   // Interests Match
   if (profile.interests && Array.isArray(profile.interests)) {
     if (profile.interests.some(i => book.description.toLowerCase().includes(i.toLowerCase()) || book.title.toLowerCase().includes(i.toLowerCase()))) {
-      score += 15;
+      score += 20;
     }
   }
 
-  // V5: Reader Intent & Thematic Tags
+  // V5/V6: Reader Intent & Thematic Tags
   if (profile.readerIntent && Array.isArray(profile.readerIntent)) {
     const intents = profile.readerIntent.map((i: string) => i.toLowerCase());
     
@@ -35,6 +35,22 @@ function calculateConfidence(book: Book, profile: Record<string, any>): number {
       if (book.readingDifficulty === 'beginner') score += 20;
       if (book.readingDifficulty === 'advanced') score -= 30; // Penalize heavy books
       if (book.tags && book.tags.includes('fast_paced')) score += 15;
+    }
+
+    // Surprise Me / Quick start logic: if user just wants a recommendation
+    if (intents.includes('surprise_me') || intents.includes('quick_recommendation') || intents.includes('fun')) {
+      score += 25;
+    }
+
+    // Atomic Habits fan -> Productivity, Habits, etc
+    if (intents.includes('atomic_habits_fan') || intents.includes('productivity')) {
+      if (['Productivity', 'Self-help', 'Personal Growth'].some(g => book.genre.toLowerCase().includes(g.toLowerCase()))) score += 30;
+      if (book.tags && book.tags.includes('habits')) score += 30;
+    }
+
+    // Fantasy detection
+    if (intents.includes('fantasy_reader')) {
+      if (book.genre.toLowerCase() === 'fantasy') score += 30;
     }
   }
 
@@ -71,25 +87,24 @@ export async function POST(req: Request) {
     const tCatalog = Date.now() - tCatalogStart;
 
     const systemInstruction = `
-      You are BookGuide AI, an expert, friendly, and highly professional assistant at a premium bookstore.
-      Your job is to help customers discover books, find gifts, and navigate the store based on deep reader intent.
-
-      CRITICAL RULES & GUARDRAILS:
-      1. EXACTLY ONE RECOMMENDATION: You must return exactly ONE top recommendation. Do NOT return multiple books. If the user wants more, they will explicitly ask for options.
-      2. CONVERSATION FIRST: If the user's request is vague (e.g. "Recommend a book for my father"), DO NOT guess. Return 0 recommendations and ask ONE clarifying question (e.g., "How old is he and what genres does he like?"). 
-      3. CATALOG ONLY: ONLY recommend books explicitly provided in the "Available Books Catalog" below. NEVER invent or hallucinate books.
-      4. BUDGET ENFORCEMENT: If a 'budget' is set, YOU MUST NOT recommend any book where the price exceeds the budget.
-      5. AVOID REPETITION: Avoid recommending books already in the 'alreadyRecommended' list.
-      6. RELUCTANT READERS: If the user hasn't read in years, dislikes reading, or wants an "easy" book, prioritize 'beginner' difficulty and 'fast_paced' books. Strictly avoid 'advanced' classics or long epics.
-      7. AGE-AWARENESS: Strictly respect target audiences. Do not recommend children's books to adults, and vice versa. 
-      8. EXPLANATION QUALITY: Recommendation 'reason' must be highly personalized. 
-         - BAD: "This is a popular fantasy book."
-         - GOOD: "Since your brother enjoys gaming and movies, this fast-paced adventure will keep him engaged even if he doesn't read often."
+      You are BookGuide AI, an expert bookstore assistant.
+      TARGET BEHAVIOR: 70% Recommendation, 30% Questioning. You MUST recommend books as soon as you have basic info (genre, budget, or general interest).
+      
+      CRITICAL RULES:
+      1. EXACTLY ONE RECOMMENDATION: You must return exactly ONE top recommendation. Do NOT return multiple books.
+      2. RECOMMENDATION FIRST: If you have ANY of the following: favoriteGenres, likedBooks, budget, readerIntent, giftRecipientAge, or interests -> YOU MUST RECOMMEND A BOOK. Do not ask a question without recommending a book first.
+      3. AMBIGUOUS REQUESTS ONLY: Only ask a clarification question if the request is TRULY ambiguous (e.g., "Recommend a gift", "Recommend a book"). Ask exactly ONE question.
+      4. LOW CONFIDENCE HANDLING: If you are unsure, recommend ONE safe, highly-rated book, AND you may optionally ask ONE follow-up question. The recommendation MUST come first.
+      5. SURPRISE ME: If the user says "Surprise me", immediately recommend one highly rated book. You may ask an optional follow-up question, but never block the recommendation.
+      6. FANTASY DETECTION: If the user mentions fantasy, Harry Potter, Percy Jackson, etc., classify readerIntent as 'fantasy_reader' and recommend immediately.
+      7. ATOMIC HABITS: If the user mentions Atomic Habits, classify readerIntent as 'atomic_habits_fan' and recommend. Do not drift into business or startup.
+      8. ANTI-LOOP: The user's profile includes 'clarificationCount' and 'lastQuestionAsked'. If clarificationCount >= 1, YOU MUST RECOMMEND A BOOK. Never ask the same question twice.
+      9. EXPLANATION QUALITY: Recommendation 'reason' must be highly personalized. "Since your brother enjoys gaming, this fast-paced adventure..."
+      10. CATALOG ONLY: ONLY recommend books explicitly provided in the "Available Books Catalog" below. NEVER invent or hallucinate books.
 
       PROFILE MANAGEMENT:
       Maintain the session profile. If you learn new info, update "profileUpdate".
-      Always try to classify the user's psychological "readerIntent" (e.g. ["gift", "reluctant_reader"], ["productivity"], ["purpose"]).
-      Fields to extract: budget (number), favoriteGenres (array), likedBooks (array), dislikedGenres (array), giftMode (boolean), giftRecipientAge (number), readingLevel (string), interests (array), readerIntent (array of strings).
+      Always try to classify the user's psychological "readerIntent".
       NOTE: Do NOT generate or update the 'alreadyRecommended' list. The system handles that automatically.
     `;
 
@@ -174,12 +189,39 @@ export async function POST(req: Request) {
         maxConfidence = Math.max(...data.recommendations.map((r: any) => r.confidence));
       }
 
-      if (maxConfidence < 70) {
-        // Wipe recommendations if we aren't confident, force a clarifying question
-        data.recommendations = [];
-        if (!data.followUpQuestion) {
-          data.followUpQuestion = "To help me find the absolute perfect book for you, could you tell me a little bit more about what you enjoy or are looking for?";
+      // V6 Anti-Loop Logic
+      const clarificationCount = profile.clarificationCount || 0;
+      const lastQuestion = profile.lastQuestionAsked || null;
+
+      // Infinite Loop Protection
+      if (data.followUpQuestion && data.followUpQuestion === lastQuestion) {
+        data.followUpQuestion = null;
+      }
+
+      const hasCoreInfo = profile.favoriteGenres || profile.likedBooks || profile.budget || profile.readerIntent || profile.interests || profile.giftRecipientAge;
+
+      if (maxConfidence < 40) {
+        // We want to wipe only if we TRULY have no info and haven't asked a question yet
+        if (!hasCoreInfo && clarificationCount === 0) {
+          data.recommendations = [];
+          if (!data.followUpQuestion) {
+            data.followUpQuestion = "To help me find the absolute perfect book for you, could you tell me a little bit more about what you enjoy or are looking for?";
+          }
         }
+      }
+      
+      // Fallback if AI somehow wiped recommendations despite rules
+      if (data.recommendations.length === 0 && (clarificationCount >= 1 || hasCoreInfo)) {
+          // Grab a popular book as fallback
+          const safeBooks = allBooks.filter(b => b.targetAudience !== 'children');
+          if (safeBooks.length > 0) {
+            data.recommendations = [{
+              title: safeBooks[0].title,
+              reason: "Since you're open to ideas, I highly recommend this as a widely beloved choice.",
+              reasonType: "popular_choice",
+              confidence: 50
+            }];
+          }
       }
 
       // 3. Append to alreadyRecommended (only if we actually recommended something)
