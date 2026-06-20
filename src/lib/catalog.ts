@@ -40,9 +40,9 @@ export function getCompressedCatalogContext(): string {
   if (cachedCompressedContext) return cachedCompressedContext;
 
   const catalog = getCatalog();
-  // Format to send ONLY fields needed for recommendation reasoning (removes section/rack, truncates desc)
+  // Format to send ONLY fields needed for recommendation reasoning
   cachedCompressedContext = catalog.map(b => 
-    `"${b.title}" | Genre: ${b.genre} | ₹${b.price} | Audience: ${b.targetAudience} | Difficulty: ${b.readingDifficulty} | Tags: ${b.tags?.join(', ') || ''} | Desc: ${b.description.substring(0, 150)}...`
+    `"${b.title}" | Genre: ${b.genre} | Sec: ${b.section} | Rack: ${b.rack} | ₹${b.price} | Audience: ${b.targetAudience} | Difficulty: ${b.readingDifficulty} | Tags: ${b.tags?.join(', ') || ''} | Desc: ${b.description.substring(0, 150)}...`
   ).join('\n');
 
   return cachedCompressedContext;

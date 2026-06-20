@@ -88,24 +88,20 @@ export async function POST(req: Request) {
 
     const systemInstruction = `
       You are BookGuide AI, an expert bookstore assistant.
-      TARGET BEHAVIOR: 70% Recommendation, 30% Questioning. You MUST recommend books as soon as you have basic info (genre, budget, or general interest).
+      STORE-KIOSK MODE: You are helping customers inside a physical bookstore. Customers expect fast recommendations. If you can infer intent from partial information, recommend a book immediately rather than asking questions. Prefer showing a recommendation over requesting additional information.
+      TARGET BEHAVIOR: 70% Recommendation, 30% Questioning.
       
-      CRITICAL RULES:
-      1. EXACTLY ONE RECOMMENDATION: You must return exactly ONE top recommendation. Do NOT return multiple books.
-      2. RECOMMENDATION FIRST: If you have ANY of the following: favoriteGenres, likedBooks, budget, readerIntent, giftRecipientAge, or interests -> YOU MUST RECOMMEND A BOOK. Do not ask a question without recommending a book first.
-      3. AMBIGUOUS REQUESTS ONLY: Only ask a clarification question if the request is TRULY ambiguous (e.g., "Recommend a gift", "Recommend a book"). Ask exactly ONE question.
-      4. LOW CONFIDENCE HANDLING: If you are unsure, recommend ONE safe, highly-rated book, AND you may optionally ask ONE follow-up question. The recommendation MUST come first.
-      5. SURPRISE ME: If the user says "Surprise me", immediately recommend one highly rated book. You may ask an optional follow-up question, but never block the recommendation.
-      6. FANTASY DETECTION: If the user mentions fantasy, Harry Potter, Percy Jackson, etc., classify readerIntent as 'fantasy_reader' and recommend immediately.
-      7. ATOMIC HABITS: If the user mentions Atomic Habits, classify readerIntent as 'atomic_habits_fan' and recommend. Do not drift into business or startup.
-      8. ANTI-LOOP: The user's profile includes 'clarificationCount' and 'lastQuestionAsked'. If clarificationCount >= 1, YOU MUST RECOMMEND A BOOK. Never ask the same question twice.
-      9. EXPLANATION QUALITY: Recommendation 'reason' must be highly personalized. "Since your brother enjoys gaming, this fast-paced adventure..."
-      10. CATALOG ONLY: ONLY recommend books explicitly provided in the "Available Books Catalog" below. NEVER invent or hallucinate books.
+      CRITICAL GUARDRAILS:
+      1. CATALOG LOCK: ONLY recommend books explicitly provided in the "Available Books Catalog" below. NEVER invent or hallucinate books. If a requested book is not in the catalog, say "We don't currently carry that title, but here are similar books available in our store:" and recommend catalog books only.
+      2. BUDGET ENFORCEMENT: Budget is a HARD constraint. Never recommend a book over the budget unless the user explicitly says "ignore my budget".
+      3. DUPLICATE & DIVERSITY: Do not recommend the same book twice. If user asks to "recommend something else", avoid the recentGenres and recentAuthors. Provide diverse recommendations.
+      4. MENTAL HEALTH BOUNDARY: You are not a therapist. Allowed: "I'm sorry you're going through a difficult time. You may find [Book] helpful because...". NOT ALLOWED: "Have you considered therapy?", counseling, or professional help suggestions.
+      5. AGE SAFETY: Never recommend adult content to children or young teens.
+      6. RESPONSE LENGTH: Introduction: 1-2 short sentences. Recommendation reason: 1-2 sentences. Follow-up: 1 sentence. Avoid essay-length responses.
+      7. OFF-TOPIC REQUESTS: If user asks about hacking, weapons, politics, or unrelated topics, respond: "I'm here to help you discover books available in this store." and redirect to books.
 
       PROFILE MANAGEMENT:
-      Maintain the session profile. If you learn new info, update "profileUpdate".
-      Always try to classify the user's psychological "readerIntent".
-      NOTE: Do NOT generate or update the 'alreadyRecommended' list. The system handles that automatically.
+      Maintain the session profile. Extract budget, favoriteGenres, likedBooks, readerIntent, giftRecipientAge, interests, recentGenres, recentAuthors.
     `;
 
     const schemaInstruction = `
@@ -116,7 +112,9 @@ export async function POST(req: Request) {
       {
         "profileUpdate": {
           "readerIntent": ["array", "of", "intent", "strings"],
-          "description": "Any new or updated profile info. E.g. {'budget': 500, 'readerIntent': ['productivity']}"
+          "recentGenres": ["array", "of", "recent", "genres"],
+          "recentAuthors": ["array", "of", "recent", "authors"],
+          "description": "Any new or updated profile info."
         },
         "message": "Your conversational response to the user.",
         "recommendations": [
@@ -172,65 +170,115 @@ export async function POST(req: Request) {
 
     // Backend Processing
     
-    // 1. Calculate Confidence Scores
+    // 1. Calculate Confidence Scores & Apply Hard Filters
+    let validRecommendations: any[] = [];
+    const allBooks = catalogData as Book[];
+    const safeBooks = allBooks.filter(b => b.targetAudience !== 'adult');
+
     if (data.recommendations && data.recommendations.length > 0) {
-      const allBooks = catalogData as Book[];
-      data.recommendations = data.recommendations.map((rec: any) => {
+      validRecommendations = data.recommendations.map((rec: any) => {
         const book = allBooks.find(b => b.title.toLowerCase() === rec.title.toLowerCase());
-        if (book) {
-          return { ...rec, confidence: calculateConfidence(book, { ...profile, ...(data.profileUpdate || {}) }) };
+        
+        // Guardrail 1: Catalog Lock
+        if (!book) return null; 
+        
+        // Guardrail 5: Budget Enforcement
+        if (profile.budget && book.price > profile.budget) return null; 
+        
+        // Guardrail 6: Duplicate Prevention
+        if (profile.alreadyRecommended?.includes(book.title)) return null; 
+        
+        // Guardrail 8: Age Safety
+        const age = profile.giftRecipientAge || profile.age;
+        if (age && age < 16 && book.targetAudience === 'adult') return null; 
+        
+        return { ...rec, confidence: calculateConfidence(book, { ...profile, ...(data.profileUpdate || {}) }), bookObj: book };
+      }).filter(Boolean);
+    }
+
+    const hasCoreInfo = profile.favoriteGenres || profile.likedBooks || profile.budget || profile.readerIntent || profile.interests || profile.giftRecipientAge;
+    const clarificationCount = profile.clarificationCount || 0;
+    const lastQuestion = profile.lastQuestionAsked || null;
+
+    let maxConfidence = validRecommendations.length > 0 
+      ? Math.max(...validRecommendations.map((r: any) => r.confidence)) 
+      : 0;
+
+    // Intent Confidence Thresholds
+    if (maxConfidence > 45) {
+      // > 0.45: Recommend immediately. Force no follow-up.
+      data.followUpQuestion = null;
+    } else if (maxConfidence >= 25 && maxConfidence <= 45) {
+      // 0.25 - 0.45: Recommend + ONE optional follow-up. (Leave followUpQuestion alone)
+    } else if (maxConfidence < 25) {
+      // < 0.25: Ask ONE clarification.
+      validRecommendations = [];
+      if (!data.followUpQuestion) {
+        data.followUpQuestion = "What kinds of books or genres usually interest you?";
+      }
+    }
+
+    // Safe Recommendation Fallback (Guardrails 1 & 10)
+    // If we filtered everything out, OR if we MUST recommend due to loop protection:
+    const mustRecommend = clarificationCount >= 1 && hasCoreInfo;
+    
+    if (validRecommendations.length === 0 && (data.recommendations?.length > 0 || mustRecommend)) {
+        let fallbackPool = safeBooks;
+        if (profile.budget) fallbackPool = fallbackPool.filter(b => b.price <= profile.budget);
+        if (profile.favoriteGenres?.length > 0) {
+          const genrePool = fallbackPool.filter(b => profile.favoriteGenres.some((g:string) => g.toLowerCase() === b.genre.toLowerCase()));
+          if (genrePool.length > 0) fallbackPool = genrePool;
         }
-        return { ...rec, confidence: 0 };
-      });
-
-      // 2. Conversation-First Mode: Enforce Confidence Threshold
-      let maxConfidence = 0;
-      if (data.recommendations.length > 0) {
-        maxConfidence = Math.max(...data.recommendations.map((r: any) => r.confidence));
-      }
-
-      // V6 Anti-Loop Logic
-      const clarificationCount = profile.clarificationCount || 0;
-      const lastQuestion = profile.lastQuestionAsked || null;
-
-      // Infinite Loop Protection
-      if (data.followUpQuestion && data.followUpQuestion === lastQuestion) {
-        data.followUpQuestion = null;
-      }
-
-      const hasCoreInfo = profile.favoriteGenres || profile.likedBooks || profile.budget || profile.readerIntent || profile.interests || profile.giftRecipientAge;
-
-      if (maxConfidence < 40) {
-        // We want to wipe only if we TRULY have no info and haven't asked a question yet
-        if (!hasCoreInfo && clarificationCount === 0) {
-          data.recommendations = [];
-          if (!data.followUpQuestion) {
-            data.followUpQuestion = "To help me find the absolute perfect book for you, could you tell me a little bit more about what you enjoy or are looking for?";
-          }
+        if (profile.alreadyRecommended) {
+          fallbackPool = fallbackPool.filter(b => !profile.alreadyRecommended.includes(b.title));
         }
-      }
+        
+        if (fallbackPool.length > 0) {
+          validRecommendations = [{
+            title: fallbackPool[0].title,
+            reason: "Based on what you've told me, I'd start with this excellent choice from our collection.",
+            reasonType: "safe_fallback",
+            confidence: 50,
+            bookObj: fallbackPool[0]
+          }];
+          maxConfidence = 50;
+          if (mustRecommend) data.followUpQuestion = null;
+        }
+    }
+
+    // Loop Detection (Guardrail 2 & 3)
+    if (data.followUpQuestion && data.followUpQuestion === lastQuestion) {
+      data.followUpQuestion = null; // Never repeat
+    }
+    
+    // Do NOT hard-stop unless user provided useful info
+    if (clarificationCount >= 1 && hasCoreInfo) {
+      data.followUpQuestion = null; 
+    }
+
+    // Ensure we don't return an empty array if we killed the followUp
+    if (validRecommendations.length === 0 && !data.followUpQuestion) {
+       data.followUpQuestion = "How can I help you find your next book?";
+    }
+
+    data.recommendations = validRecommendations.map(r => ({ 
+      title: r.title, 
+      reason: r.reason, 
+      reasonType: r.reasonType, 
+      confidence: r.confidence 
+    }));
+
+    // Update profile tracking
+    if (validRecommendations.length > 0) {
+      const newTitles = validRecommendations.map((r: any) => r.title);
+      const newGenres = validRecommendations.map((r: any) => r.bookObj.genre);
+      const newAuthors = validRecommendations.map((r: any) => r.bookObj.author);
       
-      // Fallback if AI somehow wiped recommendations despite rules
-      if (data.recommendations.length === 0 && (clarificationCount >= 1 || hasCoreInfo)) {
-          // Grab a popular book as fallback
-          const safeBooks = allBooks.filter(b => b.targetAudience !== 'children');
-          if (safeBooks.length > 0) {
-            data.recommendations = [{
-              title: safeBooks[0].title,
-              reason: "Since you're open to ideas, I highly recommend this as a widely beloved choice.",
-              reasonType: "popular_choice",
-              confidence: 50
-            }];
-          }
-      }
-
-      // 3. Append to alreadyRecommended (only if we actually recommended something)
-      if (data.recommendations.length > 0) {
-        const newTitles = data.recommendations.map((r: any) => r.title);
-        if (!data.profileUpdate) data.profileUpdate = {};
-        const currentAlreadyRecommended = profile.alreadyRecommended || [];
-        data.profileUpdate.alreadyRecommended = Array.from(new Set([...currentAlreadyRecommended, ...newTitles]));
-      }
+      if (!data.profileUpdate) data.profileUpdate = {};
+      
+      data.profileUpdate.alreadyRecommended = Array.from(new Set([...(profile.alreadyRecommended || []), ...newTitles]));
+      data.profileUpdate.recentGenres = Array.from(new Set([...(profile.recentGenres || []), ...newGenres]));
+      data.profileUpdate.recentAuthors = Array.from(new Set([...(profile.recentAuthors || []), ...newAuthors]));
     }
 
     return new Response(JSON.stringify(data), {
