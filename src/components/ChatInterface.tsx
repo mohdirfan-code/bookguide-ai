@@ -1,11 +1,14 @@
-'use client';
+"use client";
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Loader2, Sparkles, ChevronRight, RefreshCw, Search } from 'lucide-react';
+import { Send, Loader2, Sparkles, ChevronLeft, MoreHorizontal, BookOpen, RefreshCw } from 'lucide-react';
 import { Book } from '@/lib/catalog';
-import { RecommendationCard, RecommendationCardSkeleton } from './RecommendationCard';
+import { RecommendationCard } from './RecommendationCard';
+import { cn } from '@/lib/utils';
+import { useChat } from '@/lib/ChatContext';
 
 type StructuredResponse = {
   message: string;
@@ -20,26 +23,26 @@ type Message = {
 };
 
 export function ChatInterface() {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const initialQuery = searchParams ? searchParams.get('q') : null;
+
+  const { messages, setMessages, profile, setProfile, catalog, setCatalog, resetChat } = useChat();
+
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [loadingStep, setLoadingStep] = useState(0);
-  const [catalog, setCatalog] = useState<Book[]>([]);
-  const [showScrollButton, setShowScrollButton] = useState(false);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [profile, setProfile] = useState<Record<string, any>>({
-    clarificationCount: 0,
-    lastQuestionAsked: null
-  });
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const hasInitialized = useRef(false);
 
   useEffect(() => {
-    fetch('/api/catalog')
-      .then(res => res.json())
-      .then(data => setCatalog(data))
-      .catch(err => console.error("Failed to load catalog", err));
-  }, []);
+    if (catalog.length === 0) {
+      fetch('/api/catalog')
+        .then(res => res.json())
+        .then(data => setCatalog(data))
+        .catch(err => console.error("Failed to load catalog", err));
+    }
+  }, [catalog.length, setCatalog]);
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -52,37 +55,16 @@ export function ChatInterface() {
   }, [messages, isLoading]);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (isLoading) {
-      setLoadingStep(0);
-      interval = setInterval(() => {
-        setLoadingStep(prev => (prev + 1) % 3);
-      }, 3000);
+    if (initialQuery && !hasInitialized.current) {
+      hasInitialized.current = true;
+      submitQuery(initialQuery);
     }
-    return () => clearInterval(interval);
-  }, [isLoading]);
-
-  const loadingMessages = [
-    "Thinking about the perfect book...",
-    "Finding the best match...",
-    "Looking through the store catalog..."
-  ];
-
-  const handleScroll = () => {
-    if (!scrollContainerRef.current) return;
-    const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
-    // Show button if we are scrolled up more than 100px from the bottom
-    setShowScrollButton(scrollHeight - scrollTop - clientHeight > 100);
-  };
-
-  const resetSession = () => {
-    setMessages([]);
-    setProfile({});
-    setInput('');
-  };
+  }, [initialQuery]);
 
   const submitQuery = async (queryText: string) => {
     if (!queryText.trim() || isLoading) return;
+
+    console.log("[BookGuide] User message sent:", queryText);
 
     const userMessage: Message = { id: Date.now().toString(), role: 'user', content: queryText };
     setMessages(prev => [...prev, userMessage]);
@@ -90,8 +72,10 @@ export function ChatInterface() {
     setIsLoading(true);
 
     try {
-      // Create chat history for Gemini. It needs string contents.
-      const chatHistoryForApi = messages.map(m => ({
+      // Exclude the hardcoded welcome message from history to prevent hallucinating context
+      const historyToPass = messages.filter(m => m.id !== 'welcome');
+      
+      const chatHistoryForApi = historyToPass.map(m => ({
         role: m.role,
         content: typeof m.content === 'string' ? m.content : JSON.stringify(m.content)
       }));
@@ -107,7 +91,6 @@ export function ChatInterface() {
 
       const data = await response.json();
       
-      // Safely merge profile updates (arrays like alreadyRecommended should be merged, not overwritten)
       if (data.profileUpdate || data.followUpQuestion) {
         setProfile(prev => {
           const newProfile = { ...prev };
@@ -128,16 +111,12 @@ export function ChatInterface() {
           return newProfile;
         });
       }
+      
       let recommendations = data.recommendations || [];
       let messageText = data.message || "";
 
-
-      // Allow the backend Conversation-First logic to shine.
-      // If the backend returned 0 recommendations but provided a question, render exactly that.
-      // If it failed completely (no recommendations, no question), only then do a generic fallback.
       if (recommendations.length === 0 && !data.followUpQuestion) {
         messageText = "I couldn't find a perfect match for that exact request, but here are a few popular books available in the store that you might enjoy.";
-        // Fallback to top 1 popular book for compact UI
         recommendations = catalog
           .filter(b => b.targetAudience !== 'children')
           .slice(0, 1)
@@ -173,205 +152,174 @@ export function ChatInterface() {
     submitQuery(input);
   };
 
+  const suggestedPrompts = [
+    "Surprise me",
+    "I like fantasy",
+    "Need a gift",
+    "Under ₹500"
+  ];
+
   const renderMessageContent = (message: Message) => {
     if (message.role === 'user') {
-      return <p className="whitespace-pre-wrap">{message.content as string}</p>;
+      return (
+        <div className="flex justify-end w-full mb-4 px-4">
+          <div className="bg-indigo-brand text-white px-4 py-3 rounded-[1.25rem] rounded-tr-[0.25rem] max-w-[85%] text-[15px] leading-relaxed shadow-sm">
+            {message.content as string}
+          </div>
+        </div>
+      );
     }
 
     const data = message.content as StructuredResponse;
+    const isWelcome = message.id === 'welcome';
     
     return (
-      <div className="flex flex-col gap-4 w-full">
-        <p className="whitespace-pre-wrap leading-relaxed">{data.message}</p>
+      <div className="flex w-full mb-4 px-4 gap-3">
+        {/* Avatar */}
+        <div className="w-8 h-8 rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center shrink-0 mt-1 shadow-sm">
+          <BookOpen className="w-4 h-4 text-indigo-brand" />
+        </div>
         
-        {data.recommendations && data.recommendations.length > 0 && (
-          <div className="w-full flex flex-col gap-4 mt-2">
-            {[...data.recommendations].sort((a, b) => (b.confidence || 0) - (a.confidence || 0)).map((rec, idx) => {
-              const book = catalog.find(b => b.title.toLowerCase() === rec.title.toLowerCase());
-              if (!book) return <span key={idx} className="text-red-500 text-sm font-bold">[Book Not Found in Catalog: {rec.title}]</span>;
-              return <RecommendationCard key={idx} book={book} whyRecommended={rec.reason} reasonType={rec.reasonType} />;
-            })}
-            
-            {/* Action Buttons - V2 Compact Chips */}
-            {message === messages[messages.length - 1] && (
-              <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-border/50">
-                <button
-                  onClick={() => submitQuery("Can you recommend books similar to this?")}
-                  className="flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold bg-background/50 border border-border text-foreground hover:bg-muted px-3 py-1.5 rounded-full transition-colors"
-                >
-                  <Search size={14} /> Similar
-                </button>
-                <button
-                  onClick={() => submitQuery("None of these quite fit. Can you recommend something else?")}
-                  className="flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold bg-background/50 border border-border text-foreground hover:bg-muted px-3 py-1.5 rounded-full transition-colors"
-                >
-                  <RefreshCw size={14} /> More
-                </button>
-                <button
-                  onClick={() => submitQuery("Do you have any good gift ideas?")}
-                  className="flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold bg-background/50 border border-border text-foreground hover:bg-muted px-3 py-1.5 rounded-full transition-colors"
-                >
-                  🎁 Gift Ideas
-                </button>
-                <button
-                  onClick={() => inputRef.current?.focus()}
-                  className="flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold bg-background/50 border border-border text-foreground hover:bg-muted px-3 py-1.5 rounded-full transition-colors"
-                >
-                  ❓ Ask
-                </button>
+        <div className="flex flex-col gap-3 max-w-[85%]">
+          {/* Bubble */}
+          <div className="bg-white border border-gray-100 text-primary px-4 py-3 rounded-[1.25rem] rounded-tl-[0.25rem] text-[15px] leading-relaxed shadow-sm">
+            <p className="whitespace-pre-wrap">{data.message}</p>
+            {data.followUpQuestion && (
+              <div className="mt-3 pt-3 border-t border-gray-100 font-semibold text-indigo-brand">
+                {data.followUpQuestion}
               </div>
             )}
           </div>
-        )}
-
-        {data.followUpQuestion && (
-          <div className="bg-primary/10 border border-primary/20 text-primary p-4 rounded-xl mt-2 font-semibold">
-            {data.followUpQuestion}
-          </div>
-        )}
-      </div>
-    );
-  };
-
-  const suggestedPrompts = [
-    "🎁 Gift for Someone",
-    "🚀 Improve Productivity",
-    "🌱 Easy Beginner Books",
-    "🐉 Fantasy Books",
-    "💰 Books Under ₹500",
-    "✨ Surprise Me"
-  ];
-
-  return (
-    <div className="flex flex-col h-[100dvh] max-h-[100dvh] w-full bg-background relative overflow-hidden">
-      
-      {/* Minimalist Header */}
-      <div 
-        className="flex justify-between items-center px-4 h-14 sm:h-12 bg-background/95 backdrop-blur-sm sticky top-0 z-20 border-b border-transparent shrink-0"
-        style={{ paddingTop: 'env(safe-area-inset-top)' }}
-      >
-        <Link href="/" className="font-bold text-foreground flex items-center gap-1.5 text-sm hover:opacity-80 transition-opacity">
-          📚 BookGuide
-        </Link>
-        {messages.length > 0 && (
-          <button 
-            onClick={resetSession}
-            className="flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors px-2 py-1"
-          >
-            <RefreshCw size={12} /> New Chat
-          </button>
-        )}
-      </div>
-
-      <div 
-        ref={scrollContainerRef}
-        onScroll={handleScroll}
-        className="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-6 pt-2 pb-32 space-y-6 relative"
-        style={{ WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain' }}
-      >
-        {messages.length === 0 ? (
-          <div className="h-full flex flex-col items-center justify-center text-center max-w-xl mx-auto px-2 mt-[-48px]">
-            <h2 className="text-xl sm:text-2xl font-semibold text-foreground mb-6 tracking-tight">📚 What are you looking for today?</h2>
-            
-            <div className="grid grid-cols-2 gap-2 w-full">
+          
+          {/* Welcome quick chips */}
+          {isWelcome && messages.length === 1 && (
+            <div className="flex flex-wrap gap-2 mt-1">
               {suggestedPrompts.map((prompt, idx) => (
                 <button
                   key={idx}
-                  onClick={() => submitQuery(prompt.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF] |✨ |💰 |🐉 |🌱 |🚀 |🎁 /g, ''))}
-                  className="bg-muted/30 hover:bg-muted text-[13px] font-medium px-3 py-3 rounded-xl transition-all text-foreground flex items-center justify-center text-center border border-border shadow-sm hover:shadow-md"
+                  onClick={() => submitQuery(prompt)}
+                  className="bg-white border border-indigo-100 text-indigo-brand hover:bg-indigo-50 text-[13px] font-medium px-4 py-2 rounded-full transition-colors shadow-sm"
                 >
                   {prompt}
                 </button>
               ))}
             </div>
-          </div>
-        ) : (
-          <AnimatePresence>
-            {messages.map((message) => (
-              <motion.div
-                key={message.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className={"flex " + (message.role === 'user' ? 'justify-end' : 'justify-start w-full')}
-              >
-                <div
-                  className={
-                    message.role === 'user'
-                      ? 'p-3.5 bg-muted/50 text-foreground rounded-2xl rounded-br-sm max-w-[85%] text-[15px] leading-relaxed'
-                      : 'w-full text-foreground text-[15px] leading-relaxed max-w-3xl mx-auto'
-                  }
-                >
-                  {renderMessageContent(message)}
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
+          )}
+          
+          {/* Recommendations */}
+          {data.recommendations && data.recommendations.length > 0 && (
+            <div className="w-full flex flex-col gap-3 mt-1">
+              {[...data.recommendations].sort((a, b) => (b.confidence || 0) - (a.confidence || 0)).map((rec, idx) => {
+                const book = catalog.find(b => b.title.toLowerCase() === rec.title.toLowerCase());
+                if (!book) return <span key={idx} className="text-red-500 text-sm font-bold">[Book Not Found in Catalog: {rec.title}]</span>;
+                return (
+                  <RecommendationCard 
+                    key={idx} 
+                    book={book} 
+                    whyRecommended={rec.reason} 
+                    reasonType={rec.reasonType} 
+                    onAction={(action, targetBook) => {
+                      if (action === 'similar') {
+                        submitQuery(`Show me books similar to ${targetBook.title}`);
+                      } else if (action === 'more_category') {
+                        submitQuery(`Show me more ${targetBook.genre} books`);
+                      }
+                    }}
+                  />
+                );
+              })}
+            </div>
+          )}
+
+          {/* Loading indicator if this is the last message and we are loading */}
+          {isLoading && message.id === messages[messages.length - 1].id && (
+            <div className="flex items-center gap-2 mt-2">
+              <span className="flex gap-1 bg-white border border-gray-100 px-3 py-2 rounded-full shadow-sm">
+                <span className="w-1.5 h-1.5 bg-indigo-brand/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                <span className="w-1.5 h-1.5 bg-indigo-brand/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                <span className="w-1.5 h-1.5 bg-indigo-brand/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="flex flex-col h-[100dvh] max-h-[100dvh] w-full bg-[#FAFAFA] relative overflow-hidden pb-16">
+      
+      {/* Header */}
+      <div 
+        className="flex justify-between items-center px-4 h-14 sm:h-12 bg-white/80 backdrop-blur-md sticky top-0 z-20 border-b border-gray-100 shrink-0"
+        style={{ paddingTop: 'env(safe-area-inset-top)' }}
+      >
+        <button onClick={() => router.push('/')} className="p-2 -ml-2 text-primary hover:bg-gray-100 rounded-full transition-colors">
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        <div className="flex items-center gap-1.5 font-bold text-primary font-heading tracking-tight">
+          BookGuide <span className="text-accent">AI</span>
+        </div>
+        <button onClick={resetChat} className="text-xs font-semibold px-3 py-1.5 border border-gray-200 text-gray-500 hover:text-primary hover:bg-gray-50 rounded-full transition-colors flex items-center gap-1">
+          <RefreshCw className="w-3 h-3" /> Reset
+        </button>
+      </div>
+
+      <div 
+        className="flex-1 overflow-y-auto overflow-x-hidden pt-4 pb-20 relative"
+        style={{ WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain' }}
+      >
+        <AnimatePresence>
+          {messages.map((message) => (
+            <motion.div
+              key={message.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="w-full"
+            >
+              {renderMessageContent(message)}
+            </motion.div>
+          ))}
+        </AnimatePresence>
+        
+        {/* If user just sent a message and we are waiting for model, show typing indicator locally */}
+        {isLoading && messages[messages.length - 1]?.role === 'user' && (
+           <div className="flex w-full mb-4 px-4 gap-3 animate-in fade-in">
+             <div className="w-8 h-8 rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center shrink-0 mt-1 shadow-sm">
+               <BookOpen className="w-4 h-4 text-indigo-brand" />
+             </div>
+             <div className="flex items-center gap-2">
+               <span className="flex gap-1 bg-white border border-gray-100 px-3 py-2 rounded-full shadow-sm">
+                 <span className="w-1.5 h-1.5 bg-indigo-brand/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                 <span className="w-1.5 h-1.5 bg-indigo-brand/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                 <span className="w-1.5 h-1.5 bg-indigo-brand/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+               </span>
+             </div>
+           </div>
         )}
         
-        {isLoading && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-start w-full">
-            <div className="flex flex-col gap-3 w-full">
-              <div className="flex items-center gap-2 px-1">
-                <span className="flex gap-1">
-                  <span className="w-1.5 h-1.5 bg-foreground/40 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                  <span className="w-1.5 h-1.5 bg-foreground/40 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                  <span className="w-1.5 h-1.5 bg-foreground/40 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-                </span>
-                <span className="text-[13px] font-medium text-muted-foreground ml-2">{loadingMessages[loadingStep]}</span>
-              </div>
-            </div>
-          </motion.div>
-        )}
         <div ref={messagesEndRef} className="h-4" />
       </div>
 
-      <AnimatePresence>
-        {showScrollButton && (
-          <motion.button
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            onClick={scrollToBottom}
-            className="absolute bottom-[90px] right-1/2 translate-x-1/2 bg-background border border-border/50 shadow-md text-foreground text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1 z-30"
-          >
-            ⬇ New Messages
-          </motion.button>
-        )}
-      </AnimatePresence>
-
-      {/* Floating Composer Container in Normal Flow */}
+      {/* Floating Composer */}
       <div 
-        className="w-full bg-background pt-2 pb-4 px-4 shrink-0 z-40"
-        style={{ paddingBottom: 'calc(1rem + env(safe-area-inset-bottom))' }}
+        className="absolute bottom-16 left-0 w-full bg-gradient-to-t from-[#FAFAFA] via-[#FAFAFA] to-transparent pt-4 pb-4 px-4 shrink-0 z-40"
       >
-        <div className="w-full max-w-2xl mx-auto flex flex-col justify-center">
-          <form onSubmit={handleSubmit} className="flex gap-2 items-end bg-muted/40 border border-border/60 rounded-3xl p-1.5 shadow-sm focus-within:ring-1 focus-within:ring-border/80 transition-all w-full">
-            <textarea
+        <div className="w-full mx-auto flex flex-col justify-center">
+          <form onSubmit={handleSubmit} className="flex gap-2 items-center bg-white border border-gray-200 rounded-full p-1.5 shadow-lg w-full">
+            <input
               ref={inputRef}
               value={input}
-              onChange={(e) => {
-                setInput(e.target.value);
-                // Auto-resize
-                e.target.style.height = 'auto';
-                e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSubmit();
-                }
-              }}
-              placeholder="Ask about books..."
-              className="w-full bg-transparent px-4 py-2.5 focus:outline-none resize-none text-[15px] max-h-[120px] scrollbar-thin"
-              rows={1}
-              style={{ height: '44px' }}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type your message..."
+              className="w-full bg-transparent px-4 py-2 focus:outline-none text-[15px] text-primary placeholder:text-gray-400"
             />
             <button
               type="submit"
               disabled={!input.trim() || isLoading}
-              className="p-2 mb-0.5 mr-0.5 bg-primary text-primary-foreground rounded-full hover:opacity-90 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex-shrink-0 shadow-sm"
+              className="w-10 h-10 flex items-center justify-center bg-indigo-brand text-white rounded-full hover:opacity-90 disabled:opacity-50 disabled:bg-gray-300 transition-all flex-shrink-0"
             >
-              <Send size={18} className="translate-x-[1px] translate-y-[1px] w-[18px] h-[18px]" />
+              <Send size={18} className="translate-x-[-1px] translate-y-[1px]" />
             </button>
           </form>
         </div>
