@@ -18,6 +18,12 @@ export function RecommendationCard({ book, whyRecommended, reasonType, onAction 
   const [isExpanded, setIsExpanded] = useState(false);
   const [showLocation, setShowLocation] = useState(false);
 
+  // Filter out demo-style placeholder descriptions
+  const isDemoDesc = book.description?.toLowerCase().includes("demo") || book.description?.toLowerCase().includes("suitable for");
+  const displayDescription = isDemoDesc || !book.description 
+    ? `An immersive ${book.genre?.toLowerCase() || 'story'} by ${book.author || 'the author'}, filled with memorable characters and a richly crafted world.` 
+    : book.description;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 5 }}
@@ -72,6 +78,23 @@ export function RecommendationCard({ book, whyRecommended, reasonType, onAction 
         </div>
       </div>
 
+      {/* Permanently Visible Why Recommended */}
+      {whyRecommended && (
+        <div className="px-4 pb-3">
+          <div className="bg-amber-50/50 border border-amber-100/50 rounded-xl p-3 flex gap-2.5">
+            <div className="shrink-0 mt-0.5">
+               <Star className="w-4 h-4 text-accent fill-accent" />
+            </div>
+            <div>
+              <p className="text-[11px] font-bold text-primary mb-0.5">Why this book?</p>
+              <p className="text-[11px] text-gray-600 leading-relaxed">
+                {whyRecommended}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Expandable Details */}
       <AnimatePresence>
         {isExpanded && (
@@ -82,22 +105,9 @@ export function RecommendationCard({ book, whyRecommended, reasonType, onAction 
             className="overflow-hidden"
           >
             <div className="px-4 pb-3">
-              {whyRecommended && (
-                <div className="bg-amber-50/50 border border-amber-100/50 rounded-xl p-3 flex gap-2.5 mb-3">
-                  <div className="shrink-0 mt-0.5">
-                     <Star className="w-4 h-4 text-accent fill-accent" />
-                  </div>
-                  <div>
-                    <p className="text-[11px] font-bold text-primary mb-0.5">Why this book?</p>
-                    <p className="text-[11px] text-gray-600 leading-relaxed">
-                      {whyRecommended}
-                    </p>
-                  </div>
-                </div>
-              )}
               <div className="text-xs text-gray-600 leading-relaxed bg-gray-50 p-3 rounded-xl border border-gray-100">
                 <span className="font-semibold text-primary block mb-1">Description</span>
-                {book.description}
+                {displayDescription}
               </div>
             </div>
           </motion.div>

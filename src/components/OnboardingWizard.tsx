@@ -366,18 +366,24 @@ function ShieldCheckIcon(props: any) {
 function LoadingScreen() {
   return (
     <div className="flex-1 bg-[#FAFAFA] flex flex-col items-center justify-center w-full min-h-[100dvh] px-6 text-center animate-in fade-in duration-500">
-      <div className="inline-flex px-3 py-1 bg-amber-50 rounded-full text-accent text-xs font-semibold mb-6 border border-amber-100">
-        Almost there...
+      <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center mb-6 border border-indigo-100">
+        <Loader2 className="w-6 h-6 text-indigo-brand animate-spin" />
       </div>
-      <h2 className="text-4xl font-heading text-primary leading-tight mb-8">
-        Finding the <br/> <span className="text-accent">perfect book</span> <br/> for you...
+      
+      <h2 className="text-2xl font-bold text-primary mb-2">
+        📚 Finding the perfect book for you...
       </h2>
-      <p className="text-gray-500 text-sm mb-12 max-w-xs mx-auto">
-        Our AI is analyzing your preferences to find the best match ✨
+      <p className="text-sm text-gray-500 mb-12">
+        Searching our collection and matching your interests.
       </p>
 
-      {/* Skeleton / Shimmer Animation */}
-      <div className="w-full max-w-sm mb-12 flex flex-col gap-4 px-4 relative overflow-hidden">
+      {/* Smooth Loading Bar Track */}
+      <div className="w-full max-w-[200px] h-2 bg-gray-200 rounded-full overflow-hidden relative mb-12">
+        <div className="absolute top-0 left-0 h-full w-[40%] bg-gradient-to-r from-violet-500 via-indigo-brand to-violet-500 rounded-full animate-[shimmer-slide_1.5s_infinite_ease-in-out]" />
+      </div>
+
+      {/* Skeleton / Shimmer Content */}
+      <div className="w-full max-w-sm flex flex-col gap-4 px-4 relative overflow-hidden">
         {/* Shimmer gradient overlay */}
         <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-[shimmer_1.5s_infinite] z-10" />
         
@@ -399,26 +405,6 @@ function LoadingScreen() {
               <div className="w-full h-2 bg-gray-200 rounded mt-2" />
            </div>
         </div>
-      </div>
-
-      <div className="w-full bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-        <div className="flex items-center gap-4 mb-4">
-          <div className="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-brand shrink-0">
-            <Loader2 className="w-5 h-5 animate-spin" />
-          </div>
-          <div className="text-left">
-            <h3 className="font-bold text-primary text-sm">This may take a few seconds</h3>
-            <p className="text-xs text-gray-500">Hang tight! Great books are worth the wait. 📚</p>
-          </div>
-        </div>
-        <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-          <div className="h-full bg-indigo-brand w-3/4 animate-[pulse_2s_ease-in-out_infinite]" />
-        </div>
-      </div>
-
-      <div className="mt-8 flex items-center gap-2 text-xs text-accent">
-        <Info className="w-4 h-4" />
-        <p>Tip: You can ask for more details or other options once we share recommendations.</p>
       </div>
     </div>
   );

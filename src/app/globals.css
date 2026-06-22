@@ -70,8 +70,20 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --radius-3xl: 2rem;
+
+  --animate-shimmer: shimmer 1.5s infinite linear;
+  --animate-shimmer-slide: shimmer-slide 2s infinite ease-in-out;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes shimmer-slide {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
 }
 
 .dark {
